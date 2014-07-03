@@ -1,0 +1,19 @@
+{
+  "name": "regexgen.js",
+  "version": "0.1.0",
+  "dependencies": {
+  },
+  "authors": [
+    "amobiz <https://github.com/amobiz>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "package",
+    "test",
+    "tests"
+  ]
+}
