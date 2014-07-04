@@ -58,7 +58,7 @@ term-lookahead() ::= term.contains() | term.notContains() | term.followedBy() | 
 modifier ::= regexGen.ignoreCase() | regexGen.searchAll() | regexGen.searchMultiLine()
 ```
 
-Please check out [regexgen.js](app/scripts/regexgen.js) and [wiki](wiki) for API documentations, and check out [test.js](test/spec/test.js) for more examples.
+Please check out [regexgen.js](app/scripts/regexgen.js) and [wiki](https://github.com/amobiz/regexgen.js/wiki) for API documentations, and check out [test.js](test/spec/test.js) for more examples.
 
 ## Installation
 
