@@ -711,7 +711,7 @@
         },
 
         ////////////////////////////////////////////////////
-        // Character Sets
+        // Character Shorthands
         ////////////////////////////////////////////////////
 
         // Matches the character with the code hh (two hexadecimal digits)
