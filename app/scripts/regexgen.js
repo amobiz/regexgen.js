@@ -57,7 +57,7 @@
         // http://stackoverflow.com/questions/21635126/how-to-escape-square-brackets-inside-brackets-in-grep?rq=1
         metaClassChars: /([\]\^\-\\])/g,
 
-        // treat any single character, meta characters, character set, back reference, unicode character, ascii character,
+        // treat any single character, meta characters, character classes, back reference, unicode character, ascii character,
         // control character and special escaped character in regular expression as a unit term.
         unitTerms: /^(?:.|\\[.*+?^=!:${}()|\[\]\/\\]|\\[bBdDfnrsStvwW]|\[(?:\\\]|[^\]])*?\]|\\\d{1,2}|\\x[A-Fa-f0-9]{2}|\\u[A-Fa-f0-9]{4}|\\c[A-Z])$/
     };
@@ -101,7 +101,7 @@
         return value.replace( regexCodes.metaChars, '\\$1' );
     };
 
-    Term.charSets = function( list, positive, warnings ) {
+    Term.charClasses = function( list, positive, warnings ) {
         var i, v, sets, value, hyphen, circumflex;
 
         hyphen = circumflex = '';
@@ -688,7 +688,7 @@
         },
 
         ////////////////////////////////////////////////////
-        // Character Sets
+        // Character Classes
         ////////////////////////////////////////////////////
 
         // Matches any single character except the newline character (.)
@@ -700,18 +700,18 @@
         // usage: anyCharOf( [ 'a', 'c' ], ['2', '6'], 'fgh', 'z' ): ([a-c2-6fghz])
         anyCharOf: function() {
             var warnings = [];
-            return new Term( '[' + Term.charSets( arguments, true, warnings ) + ']' )._warn( warnings );
+            return new Term( '[' + Term.charClasses( arguments, true, warnings ) + ']' )._warn( warnings );
         },
 
         // Anything but these characters ([^abc])
         // usage: anyCharBut( [ 'a', 'c' ], ['2', '6'], 'fgh', 'z' ): ([^a-c2-6fghz])
         anyCharBut: function() {
             var warnings = [];
-            return new Term( '[^' + Term.charSets( arguments, false, warnings ) + ']' )._warn( warnings );
+            return new Term( '[^' + Term.charClasses( arguments, false, warnings ) + ']' )._warn( warnings );
         },
 
         ////////////////////////////////////////////////////
-        // Character Classes
+        // Character Sets
         ////////////////////////////////////////////////////
 
         // Matches the character with the code hh (two hexadecimal digits)
