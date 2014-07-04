@@ -872,13 +872,13 @@
             );
         },
 
-        // Matches specified terms but does not remember the match. The genrated parentheses are called non-capturing parentheses.
+        // Matches specified terms but does not remember the match. The generated parentheses are called non-capturing parentheses.
         group: function() {
             //return new Sequence( arguments, '(?:', ')' );
             return new Sequence( arguments );
         },
 
-        // Matches specified terms and remembers the match. The genrated parentheses are called capturing parentheses.
+        // Matches specified terms and remembers the match. The generated parentheses are called capturing parentheses.
         // label 是用來供 back reference 索引 capture 的編號。
         // 計算方式是由左至右，計算左括號出現的順序，也就是先深後廣搜尋。
         // capture( label('cap1'), capture( label('cap2'), 'xxx' ), capture( label('cap3'), '...' ), 'something else' )
@@ -907,7 +907,7 @@
 
         ////////////////////////////////////////////////////
 
-        // trust me, just put the _body as is.
+        // trust me, just put the value as is.
         regex: function( value ) {
             if ( value instanceof RegExp ) {
                 return new RegexOverwrite( value.source );
