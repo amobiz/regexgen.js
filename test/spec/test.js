@@ -92,8 +92,8 @@
                         expect(regexGen(text('ab'), 'c').source).to.equal(/abc/.source);
                     });
                     it('should escape special characters', function () {
-                        expect(regexGen('.*+?^=!:${}()|[]/\\').source).to.equal(/\.\*\+\?\^=!:\$\{\}\(\)\|\[\]\/\\/.source);
-                        expect(regexGen(text('.*+?^=!:${}()|[]/\\')).source).to.equal(/\.\*\+\?\^=!:\$\{\}\(\)\|\[\]\/\\/.source);
+                        expect(regexGen('.*+?^=!:${}()|[]/\\').source).to.equal(/\.\*\+\?\^=!:\$\{}\(\)\|\[]\/\\/.source);
+                        expect(regexGen(text('.*+?^=!:${}()|[]/\\')).source).to.equal(/\.\*\+\?\^=!:\$\{}\(\)\|\[]\/\\/.source);
                     });
                 });
             }
@@ -105,7 +105,7 @@
                     it('should place or escape hyphen and circumflex smartly', function () {
                         expect(regexGen(anyCharOf('^-')).source).to.equal(/[-^]/.source);
                         expect(regexGen(anyCharOf('^')).source).to.equal(/[\^]/.source);
-                        expect(regexGen(anyCharOf('-')).source).to.equal(/[\-]/.source);
+                        expect(regexGen(anyCharOf('-')).source).to.equal(/[-]/.source);
                     });
                     it('should accept any character sequence', function () {
                         expect(regexGen(anyCharOf('abc')).source).to.equal(/[abc]/.source);
@@ -302,7 +302,7 @@
                         expect(regexGen(maybe('ab')).source).to.equal(/(?:ab)?/.source);
                     });
                     it('should escape special characters (just as the text() function)', function () {
-                        expect(regexGen(maybe('.*+?^=!:${}()|[]/\\')).source).to.equal(/(?:\.\*\+\?\^=!:\$\{\}\(\)\|\[\]\/\\)?/.source);
+                        expect(regexGen(maybe('.*+?^=!:${}()|[]/\\')).source).to.equal(/(?:\.\*\+\?\^=!:\$\{}\(\)\|\[]\/\\)?/.source);
                     });
                 });
 

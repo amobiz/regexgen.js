@@ -47,19 +47,23 @@
         //
         // using Gracenotes version plus '\/'.
         // note that MDN's version includes: ':', '=', '!' and '-',
-        // they are metachars only when used in (?:), (?=), (?!) and [0-9] (character classes), respectively.
-        metaChars: /([.?*+^$[\]\/\\(){}|-])/g,
+        // they are metacharacters only when used in (?:), (?=), (?!) and [0-9] (character classes), respectively.
+        // metaChars: /([.?*+^$[\]\/\\(){}|-])/g,
+        //
+        // According to the book Regular Expression Cookbook
+        // (added '/' for convenience when using the /regex/ literal):
+        metaChars: /([$()*+.?[\\^{|\/])/g,
 
         // see
         // What literal characters should be escaped in a regex?
         // http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex
         // How to escape square brackets inside brackets in grep
         // http://stackoverflow.com/questions/21635126/how-to-escape-square-brackets-inside-brackets-in-grep?rq=1
-        metaClassChars: /([\]\^\-\\])/g,
+        metaClassChars: /([-\]\\^])/g,
 
         // treat any single character, meta characters, character classes, back reference, unicode character, ascii character,
         // control character and special escaped character in regular expression as a unit term.
-        unitTerms: /^(?:.|\\[.*+?^=!:${}()|\[\]\/\\]|\\[bBdDfnrsStvwW]|\[(?:\\\]|[^\]])*?\]|\\\d{1,2}|\\x[A-Fa-f0-9]{2}|\\u[A-Fa-f0-9]{4}|\\c[A-Z])$/
+        unitTerms: /^(?:.|\\[bBdDfnrsStvwW]|\\x[A-Fa-f0-9]{2}|\\u[A-Fa-f0-9]{4}|\\c[A-Z]|\\[$()*+.?[\/\\^{|]|\[(?:\\\]|[^\]])*?\]|\\\d{1,2})$/
     };
 
     var zeropad = '00000000';
