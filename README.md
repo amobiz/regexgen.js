@@ -4,7 +4,7 @@ RegexGen.js is a JavaScript Regular Expression Generator that helps to construct
 
 ## The Problems
 
-RegexGen.js try to ease two problems.
+RegexGen.js tries to ease two problems.
 
 1. While creating a regular expression, it's hard to remember the correct syntax and what characters to escape.
 2. After done creating a regular expression, it's hard to read and remember what the regex do.
