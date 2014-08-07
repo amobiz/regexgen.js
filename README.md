@@ -2,6 +2,10 @@
 
 RegexGen.js is a JavaScript Regular Expression Generator that helps to construct complex regular expressions, inspired by [JSVerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions).
 
+RegexGen.js is basically designed for people who know how the regular expression engine works, but not working with it regularly, i.e., they know how to make the regex works but may not remember every meta-characters that constructs the regex.
+
+RegexGen.js helps people don't have to remember: meta-characters, shortcuts, what characters to escape and tricks about corner cases (http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex/5484178#5484178).
+
 ## The Problems
 
 RegexGen.js tries to ease two problems.
@@ -70,7 +74,7 @@ Or you can just download the regexgen.js or regexgen.min.js, and put it to where
 
 ## Usage
 
-### The hard (but safe) way
+### The good hard (but safe) way
 
 Since the generator is exported as the `regexGen()` function.
 Everything must be referenced from it.
@@ -90,7 +94,7 @@ var regex = regexGen(
 var matches = regex.exec( url );
 ```
 
-### Mixin to global object
+### Mixin to global object (pollute the global)
 
 If you still feel inconvenient, and don't mind the global object being polluted,
 use the regexGen.mixin() function to export all member functions of the regexGen() function object to the global object.
@@ -109,7 +113,7 @@ var regex = regexGen(
 var matches = regex.exec( url );
 ```
 
-### Use the **with** keyword
+### Use the **with** keyword (not recommended)
 
 Or, if you don't use the strict mode with `use strict` keyword,
 you can use the `with` keyword (though not recommended) to refer to all member functions of the regexGen() function object.
