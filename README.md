@@ -6,6 +6,8 @@ RegexGen.js is basically designed for people who know how the regular expression
 
 RegexGen.js helps people don't have to remember: meta-characters, shortcuts, what characters to escape and tricks about corner cases (http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex/5484178#5484178).
 
+RegexGen.js helps reusing regex patterns. (checkout the [Matching an IP Address] example bellow.)
+
 ## The Problems
 
 RegexGen.js tries to ease two problems.

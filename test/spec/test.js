@@ -438,6 +438,24 @@
                         /^ip: ([0-9A-Fa-f]{2}(?:\.[0-9A-Fa-f]{2}){3})\s+mac: ([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){3})\s+(\w+):\1:\2:\3$/.source
                     );
                 });
+                it('should return json with capture names', function () {
+                    var sample = 'Conan, 8: Hi, there, my name is Conan.';
+                    var regex = regexGen(
+                        capture(label('name'), words()),
+                        ',', space().any(),
+                        capture(label('age'), digital().many()),
+                        ':', space().any(),
+                        capture(label('intro'), anything())
+                        );
+                    var result = regex.jsonExec(sample);
+                    expect(regex.source).to.equal(/(\w+),\s*(\d+):\s*(.*)/.source);
+                    expect(result).to.eql({
+                        '0': sample,
+                        name: 'Conan',
+                        age: '8',
+                        intro: 'Hi, there, my name is Conan.'
+                    });
+                });
             }
         });
 

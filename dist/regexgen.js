@@ -47,19 +47,23 @@
         //
         // using Gracenotes version plus '\/'.
         // note that MDN's version includes: ':', '=', '!' and '-',
-        // they are metachars only when used in (?:), (?=), (?!) and [0-9] (character classes), respectively.
-        metaChars: /([.?*+^$[\]\/\\(){}|-])/g,
+        // they are metacharacters only when used in (?:), (?=), (?!) and [0-9] (character classes), respectively.
+        // metaChars: /([.?*+^$[\]\/\\(){}|-])/g,
+        //
+        // According to the book Regular Expression Cookbook
+        // (added '/' for convenience when using the /regex/ literal):
+        metaChars: /([$()*+.?[\\^{|\/])/g,
 
         // see
-        // What literal characters should be escaped in a regex?
+        // What literal characters should be escaped in a regex? (corner cases)
         // http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex
         // How to escape square brackets inside brackets in grep
         // http://stackoverflow.com/questions/21635126/how-to-escape-square-brackets-inside-brackets-in-grep?rq=1
-        metaClassChars: /([\]\^\-\\])/g,
+        metaClassChars: /([-\]\\^])/g,
 
-        // treat any single character, meta characters, character set, back reference, unicode character, ascii character,
+        // treat any single character, meta characters, character classes, back reference, unicode character, ascii character,
         // control character and special escaped character in regular expression as a unit term.
-        unitTerms: /^(?:.|\\[.*+?^=!:${}()|\[\]\/\\]|\\[bBdDfnrsStvwW]|\[(?:\\\]|[^\]])*?\]|\\\d{1,2}|\\x[A-Fa-f0-9]{2}|\\u[A-Fa-f0-9]{4}|\\c[A-Z])$/
+        unitTerms: /^(?:.|\\[bBdDfnrsStvwW]|\\x[A-Fa-f0-9]{2}|\\u[A-Fa-f0-9]{4}|\\c[A-Z]|\\[$()*+.?[\/\\^{|]|\[(?:\\\]|[^\]])*?\]|\\\d{1,2})$/
     };
 
     var zeropad = '00000000';
@@ -101,7 +105,7 @@
         return value.replace( regexCodes.metaChars, '\\$1' );
     };
 
-    Term.charSets = function( list, positive, warnings ) {
+    Term.charClasses = function( list, positive, warnings ) {
         var i, v, sets, value, hyphen, circumflex;
 
         hyphen = circumflex = '';
@@ -329,7 +333,7 @@
             return this;
         },
 
-        // occurs at least min times and (optional) at most max times (?|*|*|{min,}|{min,max})
+        // occurs at least min times and (optional) at most max times (?|*|+|{min,}|{min,max})
         multiple: function( minTimes, maxTimes ) {
             minTimes = (typeof minTimes === 'number' ? minTimes.toString() : '0');
             maxTimes = (typeof maxTimes === 'number' ? maxTimes.toString() : '');
@@ -482,7 +486,7 @@
     }
 
     Capture.currentLabel = function( context ) {
-        return Label.normalize( 1 + context.captures.length );
+        return Label.normalize( context.captures.length );
     };
 
     Capture.register = function( context, captureLabel ) {
@@ -493,7 +497,7 @@
         var index;
         index = context.captures.indexOf( captureLabel );
         if ( index !== -1 ) {
-            return '\\' + (1 + index);
+            return '\\' + index;
         }
         return null;
     };
@@ -543,7 +547,7 @@
             return label;
         }
         else if ( typeof label === 'number' ) {
-            return '__' + label + '__';
+            return label.toString();
         }
         else if ( label instanceof Label ) {
             return label._label;
@@ -590,13 +594,26 @@
     // regexGen
     ////////////////////////////////////////////////////////
 
+    function jsonExec( text ) {
+        var i, n, matches, json;
+
+        json = {};
+        matches = this.exec( text );
+        if ( matches ) {
+            for ( i = 0, n = matches.length; i < n; ++i ) {
+                json[ this.captures[ i ] ] = matches[ i ];
+            }
+        }
+        return json;
+    }
+
     function regexGen() {
-        var i, n, context, term, terms, pattern, modifiers;
+        var i, n, context, term, terms, pattern, modifiers, captures, regex;
 
         terms = [];
         modifiers = [];
         context = {
-            captures: [],
+            captures: [ '0' ],
             warnings: []
         };
         for ( i = 0, n = arguments.length; i < n; ++i ) {
@@ -613,8 +630,11 @@
             }
         }
         pattern = new Sequence( terms )._generate( context, 0 );
-        regexGen.warnings = context.warnings;
-        return new RegExp( pattern, modifiers.join( '' ) );
+        regex = new RegExp( pattern, modifiers.join( '' ) );
+        regex.warnings = context.warnings;
+        regex.captures = context.captures;
+        regex.jsonExec = jsonExec;
+        return regex;
     }
 
     _mixin( regexGen, {
@@ -688,7 +708,7 @@
         },
 
         ////////////////////////////////////////////////////
-        // Character Sets
+        // Character Classes
         ////////////////////////////////////////////////////
 
         // Matches any single character except the newline character (.)
@@ -700,18 +720,18 @@
         // usage: anyCharOf( [ 'a', 'c' ], ['2', '6'], 'fgh', 'z' ): ([a-c2-6fghz])
         anyCharOf: function() {
             var warnings = [];
-            return new Term( '[' + Term.charSets( arguments, true, warnings ) + ']' )._warn( warnings );
+            return new Term( '[' + Term.charClasses( arguments, true, warnings ) + ']' )._warn( warnings );
         },
 
         // Anything but these characters ([^abc])
         // usage: anyCharBut( [ 'a', 'c' ], ['2', '6'], 'fgh', 'z' ): ([^a-c2-6fghz])
         anyCharBut: function() {
             var warnings = [];
-            return new Term( '[^' + Term.charSets( arguments, false, warnings ) + ']' )._warn( warnings );
+            return new Term( '[^' + Term.charClasses( arguments, false, warnings ) + ']' )._warn( warnings );
         },
 
         ////////////////////////////////////////////////////
-        // Character Classes
+        // Character Shorthands
         ////////////////////////////////////////////////////
 
         // Matches the character with the code hh (two hexadecimal digits)
@@ -872,13 +892,13 @@
             );
         },
 
-        // Matches specified terms but does not remember the match. The genrated parentheses are called non-capturing parentheses.
+        // Matches specified terms but does not remember the match. The generated parentheses are called non-capturing parentheses.
         group: function() {
             //return new Sequence( arguments, '(?:', ')' );
             return new Sequence( arguments );
         },
 
-        // Matches specified terms and remembers the match. The genrated parentheses are called capturing parentheses.
+        // Matches specified terms and remembers the match. The generated parentheses are called capturing parentheses.
         // label 是用來供 back reference 索引 capture 的編號。
         // 計算方式是由左至右，計算左括號出現的順序，也就是先深後廣搜尋。
         // capture( label('cap1'), capture( label('cap2'), 'xxx' ), capture( label('cap3'), '...' ), 'something else' )
@@ -907,7 +927,7 @@
 
         ////////////////////////////////////////////////////
 
-        // trust me, just put the _body as is.
+        // trust me, just put the value as is.
         regex: function( value ) {
             if ( value instanceof RegExp ) {
                 return new RegexOverwrite( value.source );

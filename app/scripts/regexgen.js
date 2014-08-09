@@ -55,7 +55,7 @@
         metaChars: /([$()*+.?[\\^{|\/])/g,
 
         // see
-        // What literal characters should be escaped in a regex?
+        // What literal characters should be escaped in a regex? (corner cases)
         // http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex
         // How to escape square brackets inside brackets in grep
         // http://stackoverflow.com/questions/21635126/how-to-escape-square-brackets-inside-brackets-in-grep?rq=1
@@ -333,7 +333,7 @@
             return this;
         },
 
-        // occurs at least min times and (optional) at most max times (?|*|*|{min,}|{min,max})
+        // occurs at least min times and (optional) at most max times (?|*|+|{min,}|{min,max})
         multiple: function( minTimes, maxTimes ) {
             minTimes = (typeof minTimes === 'number' ? minTimes.toString() : '0');
             maxTimes = (typeof maxTimes === 'number' ? maxTimes.toString() : '');
@@ -486,7 +486,7 @@
     }
 
     Capture.currentLabel = function( context ) {
-        return Label.normalize( 1 + context.captures.length );
+        return Label.normalize( context.captures.length );
     };
 
     Capture.register = function( context, captureLabel ) {
@@ -497,7 +497,7 @@
         var index;
         index = context.captures.indexOf( captureLabel );
         if ( index !== -1 ) {
-            return '\\' + (1 + index);
+            return '\\' + index;
         }
         return null;
     };
@@ -547,7 +547,7 @@
             return label;
         }
         else if ( typeof label === 'number' ) {
-            return '__' + label + '__';
+            return label.toString();
         }
         else if ( label instanceof Label ) {
             return label._label;
@@ -594,13 +594,26 @@
     // regexGen
     ////////////////////////////////////////////////////////
 
+    function jsonExec( text ) {
+        var i, n, matches, json;
+
+        json = {};
+        matches = this.exec( text );
+        if ( matches ) {
+            for ( i = 0, n = matches.length; i < n; ++i ) {
+                json[ this.captures[ i ] ] = matches[ i ];
+            }
+        }
+        return json;
+    }
+
     function regexGen() {
-        var i, n, context, term, terms, pattern, modifiers;
+        var i, n, context, term, terms, pattern, modifiers, captures, regex;
 
         terms = [];
         modifiers = [];
         context = {
-            captures: [],
+            captures: [ '0' ],
             warnings: []
         };
         for ( i = 0, n = arguments.length; i < n; ++i ) {
@@ -617,8 +630,11 @@
             }
         }
         pattern = new Sequence( terms )._generate( context, 0 );
-        regexGen.warnings = context.warnings;
-        return new RegExp( pattern, modifiers.join( '' ) );
+        regex = new RegExp( pattern, modifiers.join( '' ) );
+        regex.warnings = context.warnings;
+        regex.captures = context.captures;
+        regex.jsonExec = jsonExec;
+        return regex;
     }
 
     _mixin( regexGen, {
