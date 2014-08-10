@@ -598,17 +598,17 @@
         var i, n, matches, json;
 
         json = {};
-        matches = this.exec( text );
+        matches = this.exec( text );    // jshint ignore: line
         if ( matches ) {
             for ( i = 0, n = matches.length; i < n; ++i ) {
-                json[ this.captures[ i ] ] = matches[ i ];
+                json[ this.captures[ i ] ] = matches[ i ];  // jshint ignore: line
             }
         }
         return json;
     }
 
     function regexGen() {
-        var i, n, context, term, terms, pattern, modifiers, captures, regex;
+        var i, n, context, term, terms, pattern, modifiers, regex;
 
         terms = [];
         modifiers = [];

@@ -134,6 +134,43 @@ with( regexGen ) {
 }
 ```
 
+## About The Returned RegExp Object
+
+The `RegExp` object returned from the call of `regexGen()` function, can be used directly as usual. In addition, there are three properties injected to the `RegExp` object:
+
+* `warnings` array
+
+The `warnings` property is an array of strings contains errors detected while processing and generating the final regex. One of the best practices of programming is: always treat warnings as error and fix them.
+
+* `captures` array
+
+The `captures` property is an array of strings contains the indexes of captures and/or __label__s of __named capture__s in the order they appeared in the regex. The first item is always "0", that is the index of the whole matches. The 2nd item can be either '1' or the __label__ of __named capture__ that passed to the `label()` generator.
+
+* `jsonExec()` method
+
+Instead of access the array returned by `RegExp.exec()` method or `String.match()` method, you can obtain a JSON object from the injected `RegExp.jsonExec()` method if you are using the `label()` generator to capture patterns:
+
+```
+var sample = 'Conan: 8: Hi, there, my name is Conan.';
+var _ = regexGen;
+var regex = regexGen(
+    _.capture(_.label('name'), _.words()),
+    ':', _.space().any(),
+    _.capture(_.label('age'), _.digital().many()),
+    ':', _.space().any(),
+    _.capture(_.label('intro'), _.anything())
+    );
+var result = regex.jsonExec(sample);
+expect(regex.source).to.equal(/(\w+):\s*(\d+):\s*(.*)/.source);
+expect(result).to.eql({
+    '0': sample,
+    name: 'Conan',
+    age: '8',
+    intro: 'Hi, there, my name is Conan.'
+});
+
+```
+
 ## Examples
 
 #### Simple Password Validation
