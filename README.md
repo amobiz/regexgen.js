@@ -144,7 +144,7 @@ The `warnings` property is an array of strings contains errors detected while pr
 
 * `captures` array
 
-The `captures` property is an array of strings contains the indexes of captures and/or __label__s of __named capture__s in the order they appeared in the regex. The first item is always "0", that is the index of the whole matches. The 2nd item can be either '1' or the __label__ of __named capture__ that passed to the `label()` generator.
+The `captures` property is an array of strings contains the indexes of captures and/or **labels** of **named captures**  in the order they appeared in the regex. The first item is always "0", that is the index of the whole matches. The 2nd item can be either '1' or the **label** of **named capture** that passed to the `label()` generator.
 
 * `jsonExec()` method
 
