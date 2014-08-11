@@ -1,6 +1,6 @@
 # RegexGen.js - JavaScript Regular Expression Generator
 
-RegexGen.js is a JavaScript Regular Expression Generator that helps to construct complex regular expressions, inspired by [JSVerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions).
+RegexGen.js is a JavaScript regular expression generator that helps to construct complex regular expressions, inspired by [JSVerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions).
 
 RegexGen.js is basically designed for people who know how the regular expression engine works, but not working with it regularly, i.e., they know how to make the regex works but may not remember every meta-characters that constructs the regex.
 
