@@ -1,12 +1,26 @@
 {
   "name": "regexgen.js",
   "version": "0.1.0",
+  "description": "RegexGen.js is a JavaScript regular expression generator that helps to construct complex regular expressions.",
   "dependencies": {
   },
   "authors": [
     "amobiz <https://github.com/amobiz>"
   ],
   "license": "MIT",
+  "main": "dist/regexgen.min.js",
+  "keywords": [
+    "regex",
+    "regular expression",
+    "generator",
+    "compiler",
+    "RequireJS",
+    "Node.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amobiz/regexgen.js.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
