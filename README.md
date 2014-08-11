@@ -70,7 +70,7 @@ Please check out [regexgen.js](app/scripts/regexgen.js) and [wiki](https://githu
 
 If your are managing package dependencies with [bower](http://bower.io/), your can install RegexGen.js using bower install command.
 
-    bower install git://github.com/amobiz/regexgen.js.git
+    bower install regexgen.js
 
 Or you can just download the `regexgen.js` or `regexgen.min.js`, and put it to where your scripts located in your project.
 
