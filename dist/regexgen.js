@@ -352,25 +352,28 @@
         },
 
         // occurs at least min times and (optional) at most max times (?|*|+|{min,}|{min,max})
+        // occurs at least min times and (optional) at most max times (?|*|+|{min,}|{min,max})
         multiple: function( minTimes, maxTimes ) {
             minTimes = (typeof minTimes === 'number' ? minTimes.toString() : '0');
             maxTimes = (typeof maxTimes === 'number' ? maxTimes.toString() : '');
             if ( maxTimes === '' ) {
                 if ( minTimes === '0' ) {
                     this._quantifiers = '*';
+                    return this;
                 }
                 else if ( minTimes === '1' ) {
                     this._quantifiers = '+';
+                    return this;
                 }
             }
             // 'maybe' is more clear for this situation
             else if ( minTimes === '0' && maxTimes === '1' ) {
                 this._quantifiers = '?';
+                return this;
             }
+
             // note that {,n} is not valid.
-            else {
-                this._quantifiers = '{' + minTimes + ',' + maxTimes + '}';
-            }
+            this._quantifiers = '{' + minTimes + ',' + maxTimes + '}';
             return this;
         },
 
