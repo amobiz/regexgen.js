@@ -99,7 +99,7 @@
             }
         });
 
-        describe('Character Sets', function () {
+        describe('Character Classes', function () {
             with ( regexGen ) {
                 describe('anyCharOf', function () {
                     it('should place or escape hyphen and circumflex smartly', function () {
@@ -121,6 +121,13 @@
                     it('should escape (only) "\\", "]" characters', function () {
                         expect(regexGen(anyCharOf('^+-*/\\=%[]()')).source).to.equal(/[-+*/\\=%[\]()^]/.source);
                     });
+                    it('should accept nested character classes', function () {
+                        expect(regexGen(anyCharOf(
+                            anyCharOf( [ 'a', 'z' ] ),
+                            backspace(),
+                            hexDigital()
+                        )).source).to.equal(/[a-z\b0-9A-Fa-f]/.source);
+                    });
                 });
 
                 describe('anyCharBut', function () {
@@ -140,6 +147,13 @@
                     });
                     it('should escape (only) "\\", "]" characters', function () {
                         expect(regexGen(anyCharBut('^+-*/\\=%[]()')).source).to.equal(/[^-+*/\\=%[\]()^]/.source);
+                    });
+                    it('should accept nested character classes', function () {
+                        expect(regexGen(anyCharBut(
+                            anyCharOf( [ 'a', 'z' ] ),
+                            backspace(),
+                            hexDigital()
+                        )).source).to.equal(/[^a-z\b0-9A-Fa-f]/.source);
                     });
                 });
 
@@ -220,7 +234,7 @@
 
                 describe('lineBreak', function () {
                     it('should generate all type of line break character escapes', function () {
-                        expect(regexGen(lineBreak()).source).to.equal(/(?:\r\n|\r|\n)/.source);
+                        expect(regexGen(lineBreak()).source).to.equal(/\r\n|\r|\n/.source);
                     });
                 });
 
@@ -414,8 +428,8 @@
         describe('Capturing and back references', function () {
             with ( regexGen ) {
                 it('reference by label', function () {
-                    expect(regexGen(capture(label('protocol'), startOfLine(), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs('path'), sameAs('protocol')).source).to.equal(/(^https?):\/\/(.*)\2\1/.source);
-                    expect(regexGen(capture(label('protocol'), startOfLine(), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs(2), sameAs(1)).source).to.equal(/(^https?):\/\/(.*)/.source);
+                    expect(regexGen(startOfLine(), capture(label('protocol'), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs('path'), sameAs('protocol'), endOfLine()).source).to.equal(/^(https?):\/\/(.*)\2\1$/.source);
+                    expect(regexGen(startOfLine(), capture(label('protocol'), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs(2), sameAs(1), endOfLine()).source).to.equal(/^(https?):\/\/(.*)$/.source);
                 });
                 it('reference by index', function () {
                     expect(regexGen(capture(startOfLine(), 'http', maybe('s')), '://', capture(anything().multiple()), sameAs(2), sameAs(1)).source).to.equal(/(^https?):\/\/(.*)\2\1/.source);
