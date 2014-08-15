@@ -29,6 +29,8 @@
 
         characterClassChars: /^(?:.|\\[bdDfnrsStvwW]|\\x[A-Fa-f0-9]{2}|\\u[A-Fa-f0-9]{4}|\\c[A-Z])$/,
 
+        characterClassExpr: /^\[\^?(.*)]$/,
+
         ctrlChars: /^[A-Za-z]$/,
 
         hexAsciiCodes: /^[0-9A-Fa-f]{2}$/,
@@ -135,7 +137,23 @@
                 continue;
             }
             else if ( v instanceof Term ) {
-                if ( regexCodes.characterClassChars.test( v._body ) ) {
+                if ( v._quantifiers ) {
+                    warnings.push( 'ignoring quantifier of embeded character class: ' + v._quantifiers );
+                }
+                if ( v._preLookaheads || v._lookaheads ) {
+                    warnings.push( 'ignoring lookaheads of embeded character class: ' + v._preLookaheads + ' : ' + v._lookaheads );
+                }
+                value = v._body.match( regexCodes.characterClassExpr );
+                if ( value && value[1] ) {
+                    value = value[1];
+                    if ( value[0] === '^' ) {
+                        warnings.push( 'ignoring negation directive of embeded character class' );
+                        value = value.substring( 1 );
+                    }
+                    sets.push( value );
+                    continue;
+                }
+                else if ( regexCodes.characterClassChars.test( v._body ) ) {
                     sets.push( v._body );
                     continue;
                 }
@@ -334,25 +352,28 @@
         },
 
         // occurs at least min times and (optional) at most max times (?|*|+|{min,}|{min,max})
+        // occurs at least min times and (optional) at most max times (?|*|+|{min,}|{min,max})
         multiple: function( minTimes, maxTimes ) {
             minTimes = (typeof minTimes === 'number' ? minTimes.toString() : '0');
             maxTimes = (typeof maxTimes === 'number' ? maxTimes.toString() : '');
             if ( maxTimes === '' ) {
                 if ( minTimes === '0' ) {
                     this._quantifiers = '*';
+                    return this;
                 }
                 else if ( minTimes === '1' ) {
                     this._quantifiers = '+';
+                    return this;
                 }
             }
             // 'maybe' is more clear for this situation
             else if ( minTimes === '0' && maxTimes === '1' ) {
                 this._quantifiers = '?';
+                return this;
             }
+
             // note that {,n} is not valid.
-            else {
-                this._quantifiers = '{' + minTimes + ',' + maxTimes + '}';
-            }
+            this._quantifiers = '{' + minTimes + ',' + maxTimes + '}';
             return this;
         },
 
@@ -711,11 +732,6 @@
         // Character Classes
         ////////////////////////////////////////////////////
 
-        // Matches any single character except the newline character (.)
-        anyChar: function() {
-            return new Term( '.' );
-        },
-
         // Any given character ([abc])
         // usage: anyCharOf( [ 'a', 'c' ], ['2', '6'], 'fgh', 'z' ): ([a-c2-6fghz])
         anyCharOf: function() {
@@ -733,6 +749,11 @@
         ////////////////////////////////////////////////////
         // Character Shorthands
         ////////////////////////////////////////////////////
+
+        // Matches any single character except the newline character (.)
+        anyChar: function() {
+            return new Term( '.' );
+        },
 
         // Matches the character with the code hh (two hexadecimal digits)
         ascii: function() {
@@ -822,11 +843,6 @@
             return new Term( '\\r' );
         },
 
-        //  Matches any line break, includes Unix and windows CRLF
-        lineBreak: function() {
-            return new Term( '(?:\\r\\n|\\r|\\n)' );
-        },
-
         // Matches a single white space character, including space, tab, form feed, line feed: (\s)
         space: function() {
             return new Term( '\\s' );
@@ -857,18 +873,9 @@
             return new Term( '\\D' );
         },
 
-        hexDigital: function() {
-            return new Term( '[0-9A-Fa-f]' );
-        },
-
         // Matches any alphanumeric character including the underscore: (\w)
         word: function() {
             return new Term( '\\w' );
-        },
-
-        // Matches any alphanumeric character sequence including the underscore: (\w+)
-        words: function() {
-            return new Term( '\\w', '+' );
         },
 
         // Matches any non-word character.
@@ -876,9 +883,31 @@
             return new Term( '\\W' );
         },
 
+        ////////////////////////////////////////////////////
+        // Extended Character Shorthands
+        ////////////////////////////////////////////////////
+
         // Matches any characters except the newline character: (.*)
         anything: function() {
             return new Term( '.', '*' );
+        },
+
+        hexDigital: function() {
+            return new Term( '[0-9A-Fa-f]' );
+        },
+
+        //  Matches any line break, includes Unix and windows CRLF
+        lineBreak: function() {
+            return this.either( this.group( this.carriageReturn(), this.lineFeed() ),
+                this.carriageReturn(),
+                this.lineFeed()
+            );
+            //Term( '(?:\\r\\n|\\r|\\n)' );
+        },
+
+        // Matches any alphanumeric character sequence including the underscore: (\w+)
+        words: function() {
+            return new Term( '\\w', '+' );
         },
 
         ////////////////////////////////////////////////////

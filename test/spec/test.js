@@ -99,7 +99,7 @@
             }
         });
 
-        describe('Character Sets', function () {
+        describe('Character Classes', function () {
             with ( regexGen ) {
                 describe('anyCharOf', function () {
                     it('should place or escape hyphen and circumflex smartly', function () {
@@ -121,6 +121,13 @@
                     it('should escape (only) "\\", "]" characters', function () {
                         expect(regexGen(anyCharOf('^+-*/\\=%[]()')).source).to.equal(/[-+*/\\=%[\]()^]/.source);
                     });
+                    it('should accept nested character classes', function () {
+                        expect(regexGen(anyCharOf(
+                            anyCharOf( [ 'a', 'z' ] ),
+                            backspace(),
+                            hexDigital()
+                        )).source).to.equal(/[a-z\b0-9A-Fa-f]/.source);
+                    });
                 });
 
                 describe('anyCharBut', function () {
@@ -140,6 +147,13 @@
                     });
                     it('should escape (only) "\\", "]" characters', function () {
                         expect(regexGen(anyCharBut('^+-*/\\=%[]()')).source).to.equal(/[^-+*/\\=%[\]()^]/.source);
+                    });
+                    it('should accept nested character classes', function () {
+                        expect(regexGen(anyCharBut(
+                            anyCharOf( [ 'a', 'z' ] ),
+                            backspace(),
+                            hexDigital()
+                        )).source).to.equal(/[^a-z\b0-9A-Fa-f]/.source);
                     });
                 });
 
@@ -218,12 +232,6 @@
                     });
                 });
 
-                describe('lineBreak', function () {
-                    it('should generate all type of line break character escapes', function () {
-                        expect(regexGen(lineBreak()).source).to.equal(/(?:\r\n|\r|\n)/.source);
-                    });
-                });
-
                 describe('space', function () {
                     it('should generate a single space character escape', function () {
                         expect(regexGen(space()).source).to.equal(/\s/.source);
@@ -260,21 +268,9 @@
                     });
                 });
 
-                describe('hexDigital', function () {
-                    it('should generate a character sets for hex digital', function () {
-                        expect(regexGen(hexDigital()).source).to.equal(/[0-9A-Fa-f]/.source);
-                    });
-                });
-
                 describe('word', function () {
                     it('should generate a single word character escape', function () {
                         expect(regexGen(word()).source).to.equal(/\w/.source);
-                    });
-                });
-
-                describe('words', function () {
-                    it('should generate a single word character escape with one to many multiple', function () {
-                        expect(regexGen(words()).source).to.equal(/\w+/.source);
                     });
                 });
 
@@ -287,6 +283,24 @@
                 describe('anything', function () {
                     it('should generate a single dot character with zero to many multiple', function () {
                         expect(regexGen(anything()).source).to.equal(/.*/.source);
+                    });
+                });
+
+                describe('hexDigital', function () {
+                    it('should generate a character sets for hex digital', function () {
+                        expect(regexGen(hexDigital()).source).to.equal(/[0-9A-Fa-f]/.source);
+                    });
+                });
+
+                describe('lineBreak', function () {
+                    it('should generate all type of line break character escapes', function () {
+                        expect(regexGen(lineBreak()).source).to.equal(/\r\n|\r|\n/.source);
+                    });
+                });
+
+                describe('words', function () {
+                    it('should generate a single word character escape with one to many multiple', function () {
+                        expect(regexGen(words()).source).to.equal(/\w+/.source);
                     });
                 });
             }
@@ -307,6 +321,18 @@
                 });
 
                 describe('text', function () {
+                    it('should support all kind of quantifiers', function () {
+                        expect(regexGen(text('ab').any()).source).to.equal(/(?:ab)*/.source);
+                        expect(regexGen(text('ab').many()).source).to.equal(/(?:ab)+/.source);
+                        expect(regexGen(text('ab').maybe()).source).to.equal(/(?:ab)?/.source);
+                        expect(regexGen(text('ab').repeat()).source).to.equal(/(?:ab)+/.source);
+                        expect(regexGen(text('ab').repeat(5)).source).to.equal(/(?:ab){5}/.source);
+                        expect(regexGen(text('ab').multiple()).source).to.equal(/(?:ab)*/.source);
+                        expect(regexGen(text('ab').multiple(1)).source).to.equal(/(?:ab)+/.source);
+                        expect(regexGen(text('ab').multiple(0,1)).source).to.equal(/(?:ab)?/.source);
+                        expect(regexGen(text('ab').multiple(5)).source).to.equal(/(?:ab){5,}/.source);
+                        expect(regexGen(text('ab').multiple(5,9)).source).to.equal(/(?:ab){5,9}/.source);
+                    });
                     it('should not generate quantifier modifier if there is no quantifier', function () {
                         expect(regexGen(text('ab').repeat().lazy()).source).to.equal(/(?:ab)+?/.source);
                         expect(regexGen(text('ab').lazy()).source).to.equal(/ab/.source);
@@ -414,8 +440,8 @@
         describe('Capturing and back references', function () {
             with ( regexGen ) {
                 it('reference by label', function () {
-                    expect(regexGen(capture(label('protocol'), startOfLine(), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs('path'), sameAs('protocol')).source).to.equal(/(^https?):\/\/(.*)\2\1/.source);
-                    expect(regexGen(capture(label('protocol'), startOfLine(), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs(2), sameAs(1)).source).to.equal(/(^https?):\/\/(.*)/.source);
+                    expect(regexGen(startOfLine(), capture(label('protocol'), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs('path'), sameAs('protocol'), endOfLine()).source).to.equal(/^(https?):\/\/(.*)\2\1$/.source);
+                    expect(regexGen(startOfLine(), capture(label('protocol'), 'http', maybe('s')), '://', capture(label('path'), anything().multiple()), sameAs(2), sameAs(1), endOfLine()).source).to.equal(/^(https?):\/\/(.*)$/.source);
                 });
                 it('reference by index', function () {
                     expect(regexGen(capture(startOfLine(), 'http', maybe('s')), '://', capture(anything().multiple()), sameAs(2), sameAs(1)).source).to.equal(/(^https?):\/\/(.*)\2\1/.source);
