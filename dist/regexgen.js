@@ -615,17 +615,34 @@
     // regexGen
     ////////////////////////////////////////////////////////
 
-    function jsonExec( text ) {
+    function extract( text ) {
         var i, n, matches, json;
 
-        json = {};
-        matches = this.exec( text );    // jshint ignore: line
+        matches = this.exec( text );                        // jshint ignore: line
         if ( matches ) {
+            json = {};
             for ( i = 0, n = matches.length; i < n; ++i ) {
                 json[ this.captures[ i ] ] = matches[ i ];  // jshint ignore: line
             }
         }
         return json;
+    }
+
+    function extractAll( text ) {
+        var n, json, all;
+
+        if ( ! this.global ) {                              // jshint ignore: line
+            json = this.extract( text );                    // jshint ignore: line
+            return json ? [ json ] : [];
+        }
+
+        all = [];
+        n = text.length;
+        this.lastIndex = 0;
+        while ( (json = this.extract( text )) ) {           // jshint ignore: line
+            all.push( json );
+        }
+        return all;
     }
 
     function regexGen() {
@@ -654,7 +671,8 @@
         regex = new RegExp( pattern, modifiers.join( '' ) );
         regex.warnings = context.warnings;
         regex.captures = context.captures;
-        regex.jsonExec = jsonExec;
+        regex.extract = extract;
+        regex.extractAll = extractAll;
         return regex;
     }
 

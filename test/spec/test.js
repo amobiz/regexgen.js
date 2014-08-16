@@ -464,23 +464,58 @@
                         /^ip: ([0-9A-Fa-f]{2}(?:\.[0-9A-Fa-f]{2}){3})\s+mac: ([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){3})\s+(\w+):\1:\2:\3$/.source
                     );
                 });
-                it('should return json with capture names', function () {
-                    var sample = 'Conan: 8: Hi, there, my name is Conan.';
+            }
+        });
+
+        describe('Capture and extract', function () {
+            with ( regexGen ) {
+                var sample = 'Conan: 8, Kudo: 17';
+                it('extract() should return one json object with given capture names', function () {
+                    var regex = regexGen(
+                        capture(label('name'), words()),
+                        ':', space().any(),
+                        capture(label('age'), digital().many())
+                        );
+                    var result = regex.extract(sample);
+                    expect(regex.source).to.equal(/(\w+):\s*(\d+)/.source);
+                    expect(result).to.eql({
+                        '0': 'Conan: 8',
+                        name: 'Conan',
+                        age: '8'
+                    });
+                });
+                it('extractAll() should return only one json object if searchAll() modifier is not given', function () {
+                    var regex = regexGen(
+                        capture(label('name'), words()),
+                        ':', space().any(),
+                        capture(label('age'), digital().many())
+                        );
+                    var result = regex.extractAll(sample);
+                    expect(regex.source).to.equal(/(\w+):\s*(\d+)/.source);
+                    expect(result).to.eql([{
+                        '0': 'Conan: 8',
+                        name: 'Conan',
+                        age: '8'
+                    }]);
+                });
+                it('extractAll() should return all matches if searchAll() modifier is given', function () {
                     var regex = regexGen(
                         capture(label('name'), words()),
                         ':', space().any(),
                         capture(label('age'), digital().many()),
-                        ':', space().any(),
-                        capture(label('intro'), anything())
-                        );
-                    var result = regex.jsonExec(sample);
-                    expect(regex.source).to.equal(/(\w+):\s*(\d+):\s*(.*)/.source);
-                    expect(result).to.eql({
-                        '0': sample,
+                        searchAll()
+                    );
+                    var result = regex.extractAll(sample);
+                    expect(regex.source).to.equal(/(\w+):\s*(\d+)/g.source);
+                    expect(result).to.eql([{
+                        '0': 'Conan: 8',
                         name: 'Conan',
-                        age: '8',
-                        intro: 'Hi, there, my name is Conan.'
-                    });
+                        age: '8'
+                    }, {
+                        '0': 'Kudo: 17',
+                        name: 'Kudo',
+                        age: '17'
+                    }]);
                 });
             }
         });
