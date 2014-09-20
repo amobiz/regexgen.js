@@ -1,7 +1,8 @@
 /*!
- * RegexGen.js - JavaScript Regular Expression Generator v0.1.0
+ * RegexGen.js - JavaScript Regular Expression Generator v0.1.3
  * https://github.com/amobiz/regexgen.js
  *
+ * Supports CommonJS(node.js), AMD(RequireJS) and browser global.
  *
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
@@ -11,9 +12,8 @@
  */
 (function( factory ) {
     'use strict';
-    // supports CommonJS(node.js), AMD(RequireJS) and browser global
     if ( typeof module !== 'undefined' && module.exports ) {
-        module.exports = factory;
+        module.exports = factory();
     }
     else if ( typeof define === 'function' && define.amd ) {
         define( factory );
