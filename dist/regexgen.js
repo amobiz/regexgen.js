@@ -1,5 +1,5 @@
 /*!
- * RegexGen.js - JavaScript Regular Expression Generator v0.1.3
+ * RegexGen.js - JavaScript Regular Expression Generator v0.2.0
  * https://github.com/amobiz/regexgen.js
  *
  * Supports CommonJS(node.js), AMD(RequireJS) and browser global.
@@ -223,7 +223,7 @@
         // 0.no: If there is only one term, then the terms need not protection at all.
         // 1.maybe: If the sub-expression is composed with more then one term,
         //   and the terms will be evaluated in order, i.e., will be concatenated directly,
-        //   then the terms need not protection, unless it is the either expression.
+        //   then the terms need not protection, unless it is the "either" expression.
         //
         // termRequiresWrap 是要通知元素是否需要使用 group 來保護內容。
         // 有兩種狀況:
@@ -417,7 +417,7 @@
     ////////////////////////////////////////////////////////
     // Sequence
     ////////////////////////////////////////////////////////
-
+    
     function Sequence( sequence, prefixes, suffixes, join ) {
         this._init( Sequence.normalize( sequence ) );
         this._prefixes = prefixes || '';
@@ -741,11 +741,6 @@
             return Term.sanitize( value );
         },
 
-        // Any optional character sequence, shortcut for Term.maybe ((?:abc)?)
-        maybe: function( value ) {
-            return Term.sanitize( value, '?' );
-        },
-
         ////////////////////////////////////////////////////
         // Character Classes
         ////////////////////////////////////////////////////
@@ -926,6 +921,24 @@
         // Matches any alphanumeric character sequence including the underscore: (\w+)
         words: function() {
             return new Term( '\\w', '+' );
+        },
+
+        ////////////////////////////////////////////////////
+        // Quantifiers
+        ////////////////////////////////////////////////////
+
+        any: function( value ) {
+            return Term.sanitize( value, '*' );
+        },
+
+        // occurs one or more times (x+)
+        many: function( value ) {
+            return Term.sanitize( value, '+' );
+        },
+
+        // Any optional character sequence, shortcut for Term.maybe ((?:abc)?)
+        maybe: function( value ) {
+            return Term.sanitize( value, '?' );
         },
 
         ////////////////////////////////////////////////////

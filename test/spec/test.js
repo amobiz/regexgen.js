@@ -308,6 +308,30 @@
 
         describe('Quantifiers and Lookaheads', function () {
             with ( regexGen ) {
+                describe('any', function () {
+                    it('should not generate group parentheses if there is only one single character', function () {
+                        expect(regexGen(any('a')).source).to.equal(/a*/.source);
+                    });
+                    it('should generate group parentheses if there is more than one character', function () {
+                        expect(regexGen(any('ab')).source).to.equal(/(?:ab)*/.source);
+                    });
+                    it('should escape special characters (just as the text() function)', function () {
+                        expect(regexGen(any('.*+?^=!:${}()|[]/\\')).source).to.equal(/(?:\.\*\+\?\^=!:\$\{}\(\)\|\[]\/\\)*/.source);
+                    });
+                });
+
+                describe('many', function () {
+                    it('should not generate group parentheses if there is only one single character', function () {
+                        expect(regexGen(many('a')).source).to.equal(/a+/.source);
+                    });
+                    it('should generate group parentheses if there is more than one character', function () {
+                        expect(regexGen(many('ab')).source).to.equal(/(?:ab)+/.source);
+                    });
+                    it('should escape special characters (just as the text() function)', function () {
+                        expect(regexGen(many('.*+?^=!:${}()|[]/\\')).source).to.equal(/(?:\.\*\+\?\^=!:\$\{}\(\)\|\[]\/\\)+/.source);
+                    });
+                });
+
                 describe('maybe', function () {
                     it('should not generate group parentheses if there is only one single character', function () {
                         expect(regexGen(maybe('a')).source).to.equal(/a?/.source);

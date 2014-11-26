@@ -1,6 +1,6 @@
 {
   "name": "regexgen.js",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "RegexGen.js is a JavaScript regular expression generator that helps to construct complex regular expressions.",
   "dependencies": {
   },
