@@ -114,7 +114,7 @@ var regex = regexGen(
 var matches = regex.exec( url );
 ```
 
-### Use the **with** keyword (not recommended)
+### Using the **with** keyword (not recommended)
 
 Or, if you don't use the strict mode with `use strict` keyword,
 you can use the `with` keyword (though not recommended) to refer to all member functions of the `regexGen()` function object.

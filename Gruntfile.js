@@ -142,8 +142,17 @@ module.exports = function (grunt) {
                     ]
                 }]
             }
-        }
+        },
 
+        jsdoc: {
+            dist: {
+                src: ['app/**/*.js'],
+                dest: 'doc',
+                options: {
+                    configure: 'jsdoc.conf.json'
+                }
+            }
+        }
     });
 
     grunt.registerTask('debug', [

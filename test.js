@@ -494,7 +494,7 @@
         describe('Capture and extract', function () {
             with ( regexGen ) {
                 var sample = 'Conan: 8, Kudo: 17';
-                it('extract() should return one json object with given capture names', function () {
+                it('extract() should return one json object with given capture names if searchAll() modifier is not given', function () {
                     var regex = regexGen(
                         capture(label('name'), words()),
                         ':', space().any(),
@@ -508,28 +508,14 @@
                         age: '8'
                     });
                 });
-                it('extractAll() should return only one json object if searchAll() modifier is not given', function () {
-                    var regex = regexGen(
-                        capture(label('name'), words()),
-                        ':', space().any(),
-                        capture(label('age'), digital().many())
-                        );
-                    var result = regex.extractAll(sample);
-                    expect(regex.source).to.equal(/(\w+):\s*(\d+)/.source);
-                    expect(result).to.eql([{
-                        '0': 'Conan: 8',
-                        name: 'Conan',
-                        age: '8'
-                    }]);
-                });
-                it('extractAll() should return all matches if searchAll() modifier is given', function () {
+                it('extract() should return all matches if searchAll() modifier is given', function () {
                     var regex = regexGen(
                         capture(label('name'), words()),
                         ':', space().any(),
                         capture(label('age'), digital().many()),
                         searchAll()
                     );
-                    var result = regex.extractAll(sample);
+                    var result = regex.extract(sample);
                     expect(regex.source).to.equal(/(\w+):\s*(\d+)/g.source);
                     expect(result).to.eql([{
                         '0': 'Conan: 8',
