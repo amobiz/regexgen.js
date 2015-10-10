@@ -1,40 +1,28 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Regexgen.js : RegexGen.js is a JavaScript Regular Expression Generator that helps to construct complex regular expressions.">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Regexgen.js</title>
+    <meta charset="UTF-8">
+    <title>Regexgen.js by amobiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Regexgen.js</h1>
+      <h2 class="project-tagline">RegexGen.js is a JavaScript Regular Expression Generator that helps to construct complex regular expressions.</h2>
+      <a href="https://github.com/amobiz/regexgen.js" class="btn">View on GitHub</a>
+      <a href="https://github.com/amobiz/regexgen.js/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/amobiz/regexgen.js/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/amobiz/regexgen.js">View on GitHub</a>
+    <section class="main-content">
+      <h1>
+<a id="regexgenjs---javascript-regular-expression-generator" class="anchor" href="#regexgenjs---javascript-regular-expression-generator" aria-hidden="true"><span class="octicon octicon-link"></span></a>RegexGen.js - JavaScript Regular Expression Generator</h1>
 
-          <h1 id="project_title">Regexgen.js</h1>
-          <h2 id="project_tagline">RegexGen.js is a JavaScript Regular Expression Generator that helps to construct complex regular expressions.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/amobiz/regexgen.js/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/amobiz/regexgen.js/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="regexgenjs---javascript-regular-expression-generator" class="anchor" href="#regexgenjs---javascript-regular-expression-generator"><span class="octicon octicon-link"></span></a>RegexGen.js - JavaScript Regular Expression Generator</h1>
-
-<p><a href="https://github.com/amobiz/regexgen.js">RegexGen.js</a> is a JavaScript regular expression generator that helps to construct complex regular expressions, inspired by <a href="https://github.com/VerbalExpressions/JSVerbalExpressions">JSVerbalExpressions</a>.</p>
+<p>RegexGen.js is a JavaScript regular expression generator that helps to construct complex regular expressions, inspired by <a href="https://github.com/VerbalExpressions/JSVerbalExpressions">JSVerbalExpressions</a>.</p>
 
 <p>RegexGen.js is basically designed for people who know how the regular expression engine works, but not working with it regularly, i.e., they know how to make the regex works but may not remember every meta-characters that constructs the regex.</p>
 
@@ -43,15 +31,17 @@
 <p>RegexGen.js helps reusing regex patterns. (checkout the [Matching an IP Address] example bellow.)</p>
 
 <h2>
-<a name="the-problems" class="anchor" href="#the-problems"><span class="octicon octicon-link"></span></a>The Problems</h2>
+<a id="the-problems" class="anchor" href="#the-problems" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Problems</h2>
 
 <p>RegexGen.js tries to ease two problems.</p>
 
 <ol>
 <li>While creating a regular expression, it's hard to remember the correct syntax and what characters to escape.</li>
 <li>After done creating a regular expression, it's hard to read and remember what the regex do.</li>
-</ol><h2>
-<a name="the-goals" class="anchor" href="#the-goals"><span class="octicon octicon-link"></span></a>The Goals</h2>
+</ol>
+
+<h2>
+<a id="the-goals" class="anchor" href="#the-goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Goals</h2>
 
 <p>RegexGen.js is designed to achieve the following goals.</p>
 
@@ -60,34 +50,40 @@
 <li>The generated code should be as compact as possible, e.g., no redundant brackets and parentheses.</li>
 <li>No more character escaping reguired (except '\', or if you use regex overwrite.)</li>
 <li>If the generated code is not good enougth, bad parts can be easily replaced directly in the written codes.</li>
-</ol><h2>
-<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+</ol>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
 
 <p>The generator is exported as a <code>regexGen()</code> function.</p>
 
-<p>To generate a regular expression, pass sub-expressions as parameters to the <code>regexGen()</code> function.</p>
+<p>To generate a regular expression, pass sub-expressions as parameters to the call of <code>regexGen()</code> function.</p>
 
-<p>Sub-expressions as parameters which are separated by comma are concatenated together to form the whole regular expression.</p>
+<p>Sub-expressions which are separated by comma are concatenated together to form the whole regular expression.</p>
 
-<p>Sub-expressions can either be a <code>string</code>, a <code>number</code>, a <code>RegExp</code> object, or any values generated by the owned functions of the <code>regexGen()</code> function object, i.e., the <code>regex-generator()</code> as the following informal <a href="http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form">BNF</a> syntax.</p>
+<p>Sub-expressions can either be a <code>string</code>, a <code>number</code>, a <code>RegExp</code> object, or any combinations of the call to methods (i.e., the <code>sub-generators</code>) of the <code>regexGen()</code> function object, as the following informal <a href="http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form">BNF</a> syntax.</p>
 
-<p>Strings passed into the <code>regexGen()</code>, the <code>text()</code>, the <code>maybe()</code>, the <code>anyCharOf()</code> and the <code>anyCharBut()</code> functions, are always escaped as necessary, so you don't have to worry about which characters to escape.</p>
+<p>Strings passed to the the call of <code>regexGen()</code>, <code>text()</code>, <code>maybe()</code>, <code>anyCharOf()</code> and <code>anyCharBut()</code> methods, are always escaped as necessary, so you don't have to worry about which characters to escape.</p>
 
 <p>The result of calling the <code>regexGen()</code> function is a <code>RegExp</code> object.</p>
 
+<pre><code>var regexGen = require('regexgen.js');
+var regex = regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
+</code></pre>
+
 <p>The basic usage can be expressed as the following informal <a href="http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form">BNF</a> syntax.</p>
 
-<pre><code>RegExp object = regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
+<pre><code>regex ::= regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
 
 sub-expression ::= string | number | RegExp object | term
 
-term ::= regex-generator() [.term-quantifier()] [.term-lookahead()]
+term ::= sub-generator() [.term-quantifier()] [.term-lookahead()]
 
-regex-generator() ::= regexGen.startOfLine() | regexGen.endOfLine()
+sub-generator() ::= regexGen.startOfLine() | regexGen.endOfLine()
     | regexGen.wordBoundary() | regexGen.nonWordBoundary()
     | regexGen.text() | regexGen.maybe() | regexGen.anyChar() | regexGen.anyCharOf() | regexGen.anyCharBut()
     | regexGen.either() | regexGen.group() | regexGen.capture() | regexGen.sameAs()
-    | regex() | ... (see regexGen.js for all termGenerator()s.)
+    | regex() | ... (checkout wiki for all sub-generators.)
 
 term-quantifier() ::= .term-quantifier-generator() [.term-quantifier-modifier()]
 
@@ -100,31 +96,22 @@ term-lookahead() ::= term.contains() | term.notContains() | term.followedBy() | 
 modifier ::= regexGen.ignoreCase() | regexGen.searchAll() | regexGen.searchMultiLine()
 </code></pre>
 
-<p>Please check out <a href="app/scripts/regexgen.js">regexgen.js</a> and <a href="https://github.com/amobiz/regexgen.js/wiki">wiki</a> for API documentations, and check out <a href="test/spec/test.js">test.js</a> for more examples.</p>
+<p>Please check out <a href="index.js">regexgen.js</a> and <a href="wiki">wiki</a> for API documentations, and check out <a href="test.js">test.js</a> for more examples.</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>If your are managing package dependencies with <a href="http://bower.io/">bower</a>, your can install RegexGen.js using bower install command.</p>
-
-<pre><code>bower install git://github.com/amobiz/regexgen.js.git
+<pre><code>npm install regexgen.js
 </code></pre>
 
-<p>Or you can just download the <code>regexgen.js</code> or <code>regexgen.min.js</code>, and put it to where your scripts located in your project.</p>
-
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<h3>
-<a name="the-good-hard-but-safe-way" class="anchor" href="#the-good-hard-but-safe-way"><span class="octicon octicon-link"></span></a>The good hard (but safe) way</h3>
+<p>Since the generator is exported as the <code>regexGen()</code> function, everything must be referenced from it.
+To simplify codes, assign it to a short variable is preferable.</p>
 
-<p>Since the generator is exported as the <code>regexGen()</code> function.
-Everything must be referenced from it.
-To simplify the code, assign it to a short variable is preferable.</p>
-
-<pre><code>var _ = regexGen;
-
-var regex = regexGen(
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
     _.startOfLine(),
     _.capture( 'http', _.maybe( 's' ) ), '://',
     _.capture( _.anyCharBut( ':/' ).repeat() ),
@@ -135,13 +122,11 @@ var regex = regexGen(
 var matches = regex.exec( url );
 </code></pre>
 
-<h3>
-<a name="mixin-to-global-object-pollute-the-global" class="anchor" href="#mixin-to-global-object-pollute-the-global"><span class="octicon octicon-link"></span></a>Mixin to global object (pollute the global)</h3>
-
-<p>If you still feel inconvenient, and don't mind the global object being polluted,
+<p>Note: Though not recommended, if you still feel inconvenient, and don't mind the global object being polluted,
 use the <code>regexGen.mixin()</code> function to export all member functions of the <code>regexGen()</code> function object to the global object.</p>
 
-<pre><code>regexGen.mixin( window );
+<pre><code>var regexGen = require('regexgen.js');
+regexGen.mixin( global );
 
 var regex = regexGen(
     startOfLine(),
@@ -154,47 +139,36 @@ var regex = regexGen(
 var matches = regex.exec( url );
 </code></pre>
 
-<h3>
-<a name="use-the-with-keyword-not-recommended" class="anchor" href="#use-the-with-keyword-not-recommended"><span class="octicon octicon-link"></span></a>Use the <strong>with</strong> keyword (not recommended)</h3>
+<h2>
+<a id="about-the-returned-regexp-object" class="anchor" href="#about-the-returned-regexp-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>About The Returned RegExp Object</h2>
 
-<p>Or, if you don't use the strict mode with <code>use strict</code> keyword,
-you can use the <code>with</code> keyword (though not recommended) to refer to all member functions of the <code>regexGen()</code> function object.</p>
-
-<pre><code>with( regexGen ) {
-    var regex = regexGen(
-        startOfLine(),
-        capture( 'http', maybe( 's' ) ), '://',
-        capture( anyCharBut( ':/' ).repeat() ),
-        group( ':', capture( digital().multiple(2,4) ) ).maybe(), '/',
-        capture( anything() ),
-        endOfLine()
-    );
-    var matches = regex.exec( url );
-}
-</code></pre>
+<p>The <code>RegExp</code> object returned from the call of <code>regexGen()</code> function, can be used directly as usual.
+In addition, there are four properties injected to the <code>RegExp</code> object:
+<code>warnings</code> array, <code>captures</code> array, <code>extract()</code> method and <code>replace()</code> method.
+Checkout <a href="wiki">wiki</a> for details.</p>
 
 <h2>
-<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
 
 <h4>
-<a name="simple-password-validation" class="anchor" href="#simple-password-validation"><span class="octicon octicon-link"></span></a>Simple Password Validation</h4>
+<a id="simple-password-validation" class="anchor" href="#simple-password-validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple Password Validation</h4>
 
 <p>This example is taken from the article: <a href="http://www.rexegg.com/regex-lookarounds.html">Mastering Lookahead and Lookbehind</a>.</p>
 
-<pre><code>regexGen.mixin( window );
-var regex = regexGen(
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
     // Anchor: the beginning of the string
-    startOfLine(),
+    _.startOfLine(),
     // Match: six to ten word characters
-    word().multiple(6,10).
+    _.word().multiple(6,10).
         // Look ahead: anything, then a lower-case letter
-        contains( anything().reluctant(), anyCharOf(['a','z']) ).
+        _.contains( _.anything().reluctant(), _.anyCharOf(['a','z']) ).
         // Look ahead: anything, then an upper-case letter
-        contains( anything().reluctant(), anyCharOf(['A','Z']) ).
+        _.contains( _.anything().reluctant(), _.anyCharOf(['A','Z']) ).
         // Look ahead: anything, then one digit
-        contains( anything().reluctant(), digital() ),
+        _.contains( _.anything().reluctant(), _.digital() ),
     // Anchor: the end of the string
-    endOfLine()
+    _.endOfLine()
 );
 </code></pre>
 
@@ -204,19 +178,19 @@ var regex = regexGen(
 </code></pre>
 
 <h4>
-<a name="matching-an-ip-address" class="anchor" href="#matching-an-ip-address"><span class="octicon octicon-link"></span></a>Matching an IP Address</h4>
+<a id="matching-an-ip-address" class="anchor" href="#matching-an-ip-address" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matching an IP Address</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=sshKXlr32-AC&amp;pg=PA187&amp;lpg=PA187&amp;dq=mastering+regular+expression+Matching+an+IP+Address&amp;source=bl&amp;ots=daK_ZPacNh&amp;sig=l9eFfP2WvXWkTw_jYPQHSrxEO4Q&amp;hl=zh-TW&amp;sa=X&amp;ei=z3KxU5blK43KkwXdiIGQDQ&amp;ved=0CDcQ6AEwAg#v=onepage&amp;q=mastering%20regular%20expression%20Matching%20an%20IP%20Address&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var d1 = group( anyCharOf( '0', '1' ).maybe(), digital(), digital().maybe() );
-var d2 = group( '2', anyCharOf( ['0', '4'] ), digital() );
-var d3 = group( '25', anyCharOf( ['0', '5'] ) );
-var d255 = capture( either( d1, d2, d3 ) );
-var regex = regexGen(
-    startOfLine(),
+<pre><code>var _ = require('regexgen.js');
+var d1 = _.group( _.anyCharOf( '0', '1' ).maybe(), _.digital(), _.digital().maybe() );
+var d2 = _.group( '2', _.anyCharOf( ['0', '4'] ), _.digital() );
+var d3 = _.group( '25', _.anyCharOf( ['0', '5'] ) );
+var d255 = _.capture( _.either( d1, d2, d3 ) );
+var regex = _(
+    _.startOfLine(),
     d255, '.', d255, '.', d255, '.', d255,
-    endOfLine()
+    _.endOfLine()
 );
 </code></pre>
 
@@ -226,19 +200,19 @@ var regex = regexGen(
 </code></pre>
 
 <h4>
-<a name="matching-balanced-sets-of-parentheses" class="anchor" href="#matching-balanced-sets-of-parentheses"><span class="octicon octicon-link"></span></a>Matching Balanced Sets of Parentheses</h4>
+<a id="matching-balanced-sets-of-parentheses" class="anchor" href="#matching-balanced-sets-of-parentheses" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matching Balanced Sets of Parentheses</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=sshKXlr32-AC&amp;pg=PA193&amp;lpg=PA193&amp;dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&amp;source=bl&amp;ots=daK_ZPaeHl&amp;sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&amp;hl=zh-TW&amp;sa=X&amp;ei=YHOxU5_WCIzvkgX-nYHQAw&amp;ved=0CBsQ6AEwAA#v=onepage&amp;q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var regex = regexGen(
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
     '(',
-    anyCharBut( '()' ).any(),
-    group(
+    _.anyCharBut( '()' ).any(),
+    _.group(
         '(',
-        anyCharBut( '()' ).any(),
+        _.anyCharBut( '()' ).any(),
         ')',
-        anyCharBut( '()' ).any()
+        _.anyCharBut( '()' ).any()
     ).any(),
     ')'
 );
@@ -250,21 +224,21 @@ var regex = regexGen(
 </code></pre>
 
 <h4>
-<a name="matching-balanced-sets-of-parentheses-within-any-given-levels-of-depth" class="anchor" href="#matching-balanced-sets-of-parentheses-within-any-given-levels-of-depth"><span class="octicon octicon-link"></span></a>Matching Balanced Sets of Parentheses within Any Given Levels of Depth</h4>
+<a id="matching-balanced-sets-of-parentheses-within-any-given-levels-of-depth" class="anchor" href="#matching-balanced-sets-of-parentheses-within-any-given-levels-of-depth" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matching Balanced Sets of Parentheses within Any Given Levels of Depth</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=sshKXlr32-AC&amp;pg=PA193&amp;lpg=PA193&amp;dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&amp;source=bl&amp;ots=daK_ZPaeHl&amp;sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&amp;hl=zh-TW&amp;sa=X&amp;ei=YHOxU5_WCIzvkgX-nYHQAw&amp;ved=0CBsQ6AEwAA#v=onepage&amp;q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
+<pre><code>var _ = require('regexgen.js');
 function nestingParentheses( level ) {
     if ( level &lt; 0 ) {
         return '';
     }
     if ( level === 0 ) {
-        return anyCharBut( '()' ).any();
+        return _.anyCharBut( '()' ).any();
     }
-    return either(
-            anyCharBut( '()' ),
-            group(
+    return _.either(
+            _.anyCharBut( '()' ),
+            _.group(
                 '(',
                 nestingParentheses( level - 1 ),
                 ')'
@@ -275,7 +249,7 @@ function nestingParentheses( level ) {
 
 <p>Given 1 level of nesting:</p>
 
-<pre><code>var regex = regexGen(
+<pre><code>var regex = _(
     '(', nestingParentheses( 1 ), ')'
 );
 </code></pre>
@@ -287,7 +261,7 @@ function nestingParentheses( level ) {
 
 <p>Given 3 levels of nesting:</p>
 
-<pre><code>var regex = regexGen(
+<pre><code>var regex = _(
     '(', nestingParentheses( 3 ), ')'
 );
 </code></pre>
@@ -298,17 +272,17 @@ function nestingParentheses( level ) {
 </code></pre>
 
 <h4>
-<a name="matching-an-html-tag" class="anchor" href="#matching-an-html-tag"><span class="octicon octicon-link"></span></a>Matching an HTML Tag</h4>
+<a id="matching-an-html-tag" class="anchor" href="#matching-an-html-tag" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matching an HTML Tag</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=GX3w_18-JegC&amp;pg=PA200&amp;lpg=PA200&amp;dq=mastering+regular+expression+Matching+an+HTML+Tag&amp;source=bl&amp;ots=PJkiMpkrNX&amp;sig=BiKB6kD_1ZudZw9g-VY-X-E-ylg&amp;hl=zh-TW&amp;sa=X&amp;ei=y3OxU_uEIoPPkwXL3IHQCg&amp;ved=0CFcQ6AEwBg#v=onepage&amp;q=mastering%20regular%20expression%20Matching%20an%20HTML%20Tag&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var regex = regexGen(
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
     '&lt;',
-    either(
-        group( '"', anyCharBut('"').any(), '"' ),
-        group( "'", anyCharBut("'").any(), "'" ),
-        group( anyCharBut( '"', "'", '&gt;' ) )
+    _.either(
+        _.group( '"', _.anyCharBut('"').any(), '"' ),
+        _.group( "'", _.anyCharBut("'").any(), "'" ),
+        _.group( _.anyCharBut( '"', "'", '&gt;' ) )
     ).any(),
     '&gt;'
 );
@@ -320,36 +294,36 @@ var regex = regexGen(
 </code></pre>
 
 <h4>
-<a name="matching-an-html-link" class="anchor" href="#matching-an-html-link"><span class="octicon octicon-link"></span></a>Matching an HTML Link</h4>
+<a id="matching-an-html-link" class="anchor" href="#matching-an-html-link" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matching an HTML Link</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=GX3w_18-JegC&amp;pg=PA201&amp;dq=mastering+regular+expression+Matching+an+HTML+Link&amp;hl=zh-TW&amp;sa=X&amp;ei=QnSxU4W-CMLkkAWLjIDgCg&amp;ved=0CBwQ6AEwAA#v=onepage&amp;q=mastering%20regular%20expression%20Matching%20an%20HTML%20Link&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var regexLink = regexGen(
+<pre><code>var _ = require('regexgen.js');
+var regexLink = _(
     '&lt;a',
-    wordBoundary(),
-    capture(
-        anyCharBut( '&gt;' ).many()
+    _.wordBoundary(),
+    _.capture(
+        _.anyCharBut( '&gt;' ).many()
     ),
     '&gt;',
-    capture(
-        label( 'Link' ),
-        anything().lazy()
+    _.capture(
+        _.label( 'Link' ),
+        _.anything().lazy()
     ),
     '&lt;/a&gt;',
-    ignoreCase(),
-    searchAll()
+    _.ignoreCase(),
+    _.searchAll()
 );
-var regexUrl = regexGen(
-    wordBoundary(),
+var regexUrl = _(
+    _.wordBoundary(),
     'href',
-    space().any(), '=', space().any(),
-    either(
-        group( '"', capture( anyCharBut( '"' ).any() ), '"' ),
-        group( "'", capture( anyCharBut( "'" ).any() ), "'" ),
-        capture( anyCharBut( "'", '"', '&gt;', space() ).many() )
+    _.space().any(), '=', _.space().any(),
+    _.either(
+        _.group( '"', _.capture( _.anyCharBut( '"' ).any() ), '"' ),
+        _.group( "'", _.capture( _.anyCharBut( "'" ).any() ), "'" ),
+        _.capture( _.anyCharBut( "'", '"', '&gt;', _.space() ).many() )
     ),
-    ignoreCase()
+    _.ignoreCase()
 );
 </code></pre>
 
@@ -359,7 +333,7 @@ var regexUrl = regexGen(
 /\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^'"&gt;\s]+))/i
 </code></pre>
 
-<p>Here's how to iterate all links:</p>
+<p>Here's how to iterate all links (in browser):</p>
 
 <pre><code>var capture, guts, link, url, html = document.documentElement.outerHTML;
 while ( (capture = regexLink.exec( html )) ) {
@@ -373,18 +347,18 @@ while ( (capture = regexLink.exec( html )) ) {
 </code></pre>
 
 <h4>
-<a name="examining-an-http-url" class="anchor" href="#examining-an-http-url"><span class="octicon octicon-link"></span></a>Examining an HTTP URL</h4>
+<a id="examining-an-http-url" class="anchor" href="#examining-an-http-url" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examining an HTTP URL</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=GX3w_18-JegC&amp;pg=PA203&amp;dq=mastering+regular+expression+Examining+an+HTTP+URL&amp;hl=zh-TW&amp;sa=X&amp;ei=b3SxU9nUNojOkwXpjIDYCA&amp;ved=0CBwQ6AEwAA#v=onepage&amp;q=mastering%20regular%20expression%20Examining%20an%20HTTP%20URL&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var regex = regexGen(
-    startOfLine(),
-    'http', maybe( 's' ), '://',
-    capture( anyCharBut( '/:' ).many() ),
-    group( ':', capture( digital().many() ) ).maybe(),
-    capture( '/', anything() ).maybe(),
-    endOfLine()
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
+    _.startOfLine(),
+    'http', _.maybe( 's' ), '://',
+    _.capture( _.anyCharBut( '/:' ).many() ),
+    _.group( ':', _.capture( _.digital().many() ) ).maybe(),
+    _.capture( '/', _.anything() ).maybe(),
+    _.endOfLine()
 );
 </code></pre>
 
@@ -393,7 +367,7 @@ var regex = regexGen(
 <pre><code>/^https?:\/\/([^/:]+)(?::(\d+))?(\/.*)?$/
 </code></pre>
 
-<p>Here's a snippet to report about a URL:</p>
+<p>Here's a snippet to report about a URL (in browser):</p>
 
 <pre><code>var capture = location.href.match( regex );
 var host = capture[1];
@@ -403,32 +377,32 @@ console.log( 'host:' + host + ', port:' + port + ', path:' + path );
 </code></pre>
 
 <h4>
-<a name="validating-a-hostname" class="anchor" href="#validating-a-hostname"><span class="octicon octicon-link"></span></a>Validating a Hostname</h4>
+<a id="validating-a-hostname" class="anchor" href="#validating-a-hostname" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validating a Hostname</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=GX3w_18-JegC&amp;pg=PA203&amp;dq=mastering+regular+expression+Validating+a+Hostname&amp;hl=zh-TW&amp;sa=X&amp;ei=hXSxU5nlKceIkQXc7YHgCA&amp;ved=0CBwQ6AEwAA#v=onepage&amp;q=mastering%20regular%20expression%20Validating%20a%20Hostname&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var regex = regexGen(
-    startOfLine(),
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
+    _.startOfLine(),
     // One or more dot-separated parts . . .
-    either(
-        group(
-            anyCharOf( ['a', 'z'], ['0', '9'] ),
+    _.either(
+        _.group(
+            _.anyCharOf( ['a', 'z'], ['0', '9'] ),
             '.'
         ),
-        group(
-            anyCharOf( ['a', 'z'], ['0', '9'] ),
-            anyCharOf( '-', ['a', 'z'], ['0', '9'] ).multiple( 0, 61 ),
-            anyCharOf( ['a', 'z'], ['0', '9'] ),
+        _.group(
+            _.anyCharOf( ['a', 'z'], ['0', '9'] ),
+            _.anyCharOf( '-', ['a', 'z'], ['0', '9'] ).multiple( 0, 61 ),
+            _.anyCharOf( ['a', 'z'], ['0', '9'] ),
             '.'
         )
     ).any(),
     // Followed by the final suffix part . . .
-    either(
+    _.either(
         'com', 'edu', 'gov', 'int', 'mil', 'net', 'org', 'biz', 'info', 'name', 'museum', 'coop', 'aero',
-        group( anyCharOf( ['a', 'z'] ), anyCharOf( ['a', 'z'] ) )
+        _.group( _.anyCharOf( ['a', 'z'] ), _.anyCharOf( ['a', 'z'] ) )
     ),
-    endOfLine()
+    _.endOfLine()
 );
 </code></pre>
 
@@ -438,31 +412,31 @@ var regex = regexGen(
 </code></pre>
 
 <h4>
-<a name="parsing-csv-files" class="anchor" href="#parsing-csv-files"><span class="octicon octicon-link"></span></a>Parsing CSV Files</h4>
+<a id="parsing-csv-files" class="anchor" href="#parsing-csv-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parsing CSV Files</h4>
 
 <p>This example is taken from the book: <a href="http://books.google.com.tw/books?id=GX3w_18-JegC&amp;pg=PA271&amp;dq=Unrolling+the+CSV+regex&amp;hl=zh-TW&amp;sa=X&amp;ei=x_q0U-qhD43jkAWYqoCgBA&amp;ved=0CBwQ6AEwAA#v=onepage&amp;q=Unrolling%20the%20CSV%20regex&amp;f=false">Mastering Regular Expressions</a></p>
 
-<pre><code>regexGen.mixin( window );
-var regex = regexGen(
-    either( startOfLine(), ',' ),
-    either(
+<pre><code>var _ = require('regexgen.js');
+var regex = _(
+    _.either( _.startOfLine(), ',' ),
+    _.either(
         // Either a double-quoted field (with "" for each ")
-        group(
+        _.group(
             // double-quoted field's opening quote
             '"',
-            capture(
-                anyCharBut( '"' ).any(),
-                group(
+            _.capture(
+                _.anyCharBut( '"' ).any(),
+                _.group(
                     '""',
-                    anyCharBut( '"' ).any()
+                    _.anyCharBut( '"' ).any()
                 ).any()
             ),
             // double-quoted field's closing quote
             '"'
         ),
         // Or some non-quote/non-comma text....
-        capture(
-            anyCharBut( '",' ).any()
+        _.capture(
+            _.anyCharBut( '",' ).any()
         )
     )
 );
@@ -474,23 +448,61 @@ var regex = regexGen(
 </code></pre>
 
 <h2>
-<a name="author" class="anchor" href="#author"><span class="octicon octicon-link"></span></a>Author</h2>
+<a id="change-logs" class="anchor" href="#change-logs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change logs</h2>
+
+<h3>
+<a id="2015-09-12" class="anchor" href="#2015-09-12" aria-hidden="true"><span class="octicon octicon-link"></span></a>2015-09-12:</h3>
+
+<ul>
+<li>Remove UMD headers that support RequireJS and browser globals.</li>
+<li>The json object returned from <code>extract()</code> method without the "0" property.</li>
+<li>Add <code>replace()</code> method to RegExp object.</li>
+</ul>
+
+<h3>
+<a id="2014-09-20" class="anchor" href="#2014-09-20" aria-hidden="true"><span class="octicon octicon-link"></span></a>2014-09-20:</h3>
+
+<ul>
+<li>Fix CommonJS factory invoking bug.</li>
+</ul>
+
+<h3>
+<a id="2014-08-17" class="anchor" href="#2014-08-17" aria-hidden="true"><span class="octicon octicon-link"></span></a>2014-08-17:</h3>
+
+<ul>
+<li>Rename RegExp.jsonExec() to extract(). </li>
+</ul>
+
+<h3>
+<a id="2014-08-15" class="anchor" href="#2014-08-15" aria-hidden="true"><span class="octicon octicon-link"></span></a>2014-08-15:</h3>
+
+<ul>
+<li>Character Classes now support nesting.</li>
+<li>Fix a bug in multiple(). In the case of multiple(5) that returns /{,}/, and should be /{5,}/.</li>
+</ul>
+
+<h3>
+<a id="2014-08-10" class="anchor" href="#2014-08-10" aria-hidden="true"><span class="octicon octicon-link"></span></a>2014-08-10:</h3>
+
+<ul>
+<li>Added RegExp.jsonExec() method, that returns a JSON object using capture names as properties.</li>
+</ul>
+
+<h2>
+<a id="author" class="anchor" href="#author" aria-hidden="true"><span class="octicon octicon-link"></span></a>Author</h2>
 
 <ul>
 <li><a href="https://github.com/amobiz">Amobiz</a></li>
 </ul>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Regexgen.js maintained by <a href="https://github.com/amobiz">amobiz</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/amobiz/regexgen.js">Regexgen.js</a> is maintained by <a href="https://github.com/amobiz">amobiz</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
