@@ -80,7 +80,7 @@ npm install regexgen.js
 Since the generator is exported as the `regexGen()` function, everything must be referenced from it.
 To simplify codes, assign it to a short variable is preferable.
 
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
@@ -96,7 +96,7 @@ var matches = regex.exec( url );
 Note: Though not recommended, if you still feel inconvenient, and don't mind the global object being polluted,
 use the `regexGen.mixin()` function to export all member functions of the `regexGen()` function object to the global object.
 
-``` js
+``` javascript
 var regexGen = require('regexgen.js');
 regexGen.mixin( global );
 
@@ -124,7 +124,7 @@ Checkout [wiki](wiki) for details.
 
 This example is taken from the article: [Mastering Lookahead and Lookbehind](http://www.rexegg.com/regex-lookarounds.html).
 
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     // Anchor: the beginning of the string
@@ -142,7 +142,7 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)\w{6,10}$/
 ```
 
@@ -150,7 +150,7 @@ Generates:
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA187&lpg=PA187&dq=mastering+regular+expression+Matching+an+IP+Address&source=bl&ots=daK_ZPacNh&sig=l9eFfP2WvXWkTw_jYPQHSrxEO4Q&hl=zh-TW&sa=X&ei=z3KxU5blK43KkwXdiIGQDQ&ved=0CDcQ6AEwAg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20IP%20Address&f=false)
 
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var d1 = _.group( _.anyCharOf( '0', '1' ).maybe(), _.digital(), _.digital().maybe() );
 var d2 = _.group( '2', _.anyCharOf( ['0', '4'] ), _.digital() );
@@ -163,7 +163,7 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/
 ```
 
@@ -171,7 +171,7 @@ Generates:
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false)
 
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     '(',
@@ -186,14 +186,14 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /\([^()]*(?:\([^()]*\)[^()]*)*\)/
 ```
 
 #### Matching Balanced Sets of Parentheses within Any Given Levels of Depth
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false)
-``` js
+``` javascript
 var _ = require('regexgen.js');
 function nestingParentheses( level ) {
     if ( level < 0 ) {
@@ -213,23 +213,23 @@ function nestingParentheses( level ) {
 }
 ```
 Given 1 level of nesting:
-``` js
+``` javascript
 var regex = _(
     '(', nestingParentheses( 1 ), ')'
 );
 ```
 Generates:
-``` js
+``` javascript
 /\((?:[^()]|\([^()]*\))*\)/
 ```
 Given 3 levels of nesting:
-``` js
+``` javascript
 var regex = _(
     '(', nestingParentheses( 3 ), ')'
 );
 ```
 Generates:
-``` js
+``` javascript
 /\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\)/
 ```
 
@@ -237,7 +237,7 @@ Generates:
 #### Matching an HTML Tag
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA200&lpg=PA200&dq=mastering+regular+expression+Matching+an+HTML+Tag&source=bl&ots=PJkiMpkrNX&sig=BiKB6kD_1ZudZw9g-VY-X-E-ylg&hl=zh-TW&sa=X&ei=y3OxU_uEIoPPkwXL3IHQCg&ved=0CFcQ6AEwBg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Tag&f=false)
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     '<',
@@ -250,14 +250,14 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /<(?:"[^"]*"|'[^']*'|[^"'>])*>/
 ```
 
 #### Matching an HTML Link
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA201&dq=mastering+regular+expression+Matching+an+HTML+Link&hl=zh-TW&sa=X&ei=QnSxU4W-CMLkkAWLjIDgCg&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Link&f=false)
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regexLink = _(
     '<a',
@@ -287,7 +287,7 @@ var regexUrl = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /<a\b([^>]+)>(.*?)<\/a>/gi
 /\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^'">\s]+))/i
 ```
@@ -307,7 +307,7 @@ while ( (capture = regexLink.exec( html )) ) {
 #### Examining an HTTP URL
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Examining+an+HTTP+URL&hl=zh-TW&sa=X&ei=b3SxU9nUNojOkwXpjIDYCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Examining%20an%20HTTP%20URL&f=false)
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
@@ -319,11 +319,11 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /^https?:\/\/([^/:]+)(?::(\d+))?(\/.*)?$/
 ```
 Here's a snippet to report about a URL (in browser):
-``` js
+``` javascript
 var capture = location.href.match( regex );
 var host = capture[1];
 var port = capture[2] || 80;
@@ -334,7 +334,7 @@ console.log( 'host:' + host + ', port:' + port + ', path:' + path );
 #### Validating a Hostname
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Validating+a+Hostname&hl=zh-TW&sa=X&ei=hXSxU5nlKceIkQXc7YHgCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Validating%20a%20Hostname&f=false)
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
@@ -360,14 +360,14 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /^(?:[a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9]\.)*(?:com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])$/
 ```
 
 #### Parsing CSV Files
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA271&dq=Unrolling+the+CSV+regex&hl=zh-TW&sa=X&ei=x_q0U-qhD43jkAWYqoCgBA&ved=0CBwQ6AEwAA#v=onepage&q=Unrolling%20the%20CSV%20regex&f=false)
-``` js
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.either( _.startOfLine(), ',' ),
@@ -394,8 +394,13 @@ var regex = _(
 );
 ```
 Generates:
-``` js
+``` javascript
 /(?:^|,)(?:"([^"]*(?:""[^"]*)*)"|([^",]*))/
+```
+
+## Test
+``` bash
+$ npm test
 ```
 
 ## Change logs
