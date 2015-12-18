@@ -1,22 +1,9 @@
-/* jshint strict: false, -W085 */
-/* global describe, it, expect */
-/* global regexGen,
-        ignoreCase, searchAll, searchMultiLine,
-        startOfLine, endOfLine, wordBoundary, nonWordBoundary,
-        text, maybe,
-        anyChar, anyCharOf, anyCharBut, ascii, unicode, nullChar, controlChar,
-        backspace, formFeed, lineFeed, carriageReturn, lineBreak, space, nonSpace, tab, vertTab,
-        digital, nonDigital, hexDigital, word, words, nonWord, anything, regex,
-        either, group, capture, label, sameAs */
-
-// about jshint -W085:
-// Unexpected 'with'
-// http://jslinterrors.com/unexpected-with
+'use strict';
 
 var expect = require('chai').expect;
-var regexGen = require('./index');
-var _ = regexGen;
+var regexGen = require('../');
 
+var _ = regexGen;
 
 describe('regexGen.js - The JavaScript Regular Expression Generator', function () {
 
