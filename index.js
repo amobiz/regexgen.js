@@ -1,3 +1,4 @@
+/* eslint-env node, browser */
 /*!
  * RegexGen.js - JavaScript Regular Expression Generator v0.3.0
  * https://github.com/amobiz/regexgen.js
