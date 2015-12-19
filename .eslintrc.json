@@ -128,7 +128,7 @@
 		"radix": 1,
 		"vars-on-top": 1,
 		"wrap-iife": [2, "inside"],
-		"yoda": [1, "never"],
+		"yoda": [1, "never", { "exceptRange": true }],
 		"array-bracket-spacing": [1, "never"],
 		"block-spacing": [1, "always"],
 		"brace-style": [1, "1tbs", {
@@ -166,7 +166,7 @@
 		"new-parens": 1,
 		"newline-after-var": [1, "always"],
 		"no-array-constructor": 1,
-		"no-continue": 1,
+		"no-continue": 0,
 		"no-inline-comments": 0,
 		"no-lonely-if": 1,
 		"no-mixed-spaces-and-tabs": 1,
@@ -223,7 +223,7 @@
 			"nonwords": false
 		}],
 		"spaced-comment": [1, "always", {
-			"exceptions": ["/"]
+			"exceptions": ["/", "!"]
 		}],
 		"wrap-regex": 1,
 		"arrow-parens": [2, "always"],
