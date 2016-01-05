@@ -2,6 +2,11 @@
 
 RegexGen.js is a JavaScript regular expression generator that helps to construct complex regular expressions, inspired by [JSVerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions).
 
+[![MIT](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/amobiz/regexgen.js/blob/master/LICENSE) [![npm version](https://badge.fury.io/js/regexgen.js.svg)](http://badge.fury.io/js/regexgen.js) [![David Dependency Badge](https://david-dm.org/amobiz/regexgen.js.svg)](https://david-dm.org/amobiz/regexgen.js)
+
+[![NPM](https://nodei.co/npm/regexgen.js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/regexgen.js.png?downloads=true&downloadRank=true&stars=true) [![NPM](https://nodei.co/npm-dl/regexgen.js.png?months=6&height=3)](https://nodei.co/npm/regexgen.js/)
+
+
 RegexGen.js is basically designed for people who know how the regular expression engine works, but not working with it regularly, i.e., they know how to make the regex works but may not remember every meta-characters that constructs the regex.
 
 RegexGen.js helps people don't have to remember: meta-characters, shortcuts, what characters to escape and tricks about corner cases (http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex/5484178#5484178).
