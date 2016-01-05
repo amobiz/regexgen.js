@@ -1,7 +1,10 @@
 {
   "name": "regexgen.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "keywords": [
     "regex",
     "regular expression",
@@ -11,9 +14,6 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/amobiz/regexgen.js.git"
-  },
-  "scripts": {
-    "test": "mocha test.js"
   },
   "bugs": {
     "url": "https://github.com/amobiz/regexgen.js/issues"

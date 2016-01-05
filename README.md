@@ -2,6 +2,11 @@
 
 RegexGen.js is a JavaScript regular expression generator that helps to construct complex regular expressions, inspired by [JSVerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions).
 
+[![MIT](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/amobiz/regexgen.js/blob/master/LICENSE) [![npm version](https://badge.fury.io/js/regexgen.js.svg)](http://badge.fury.io/js/regexgen.js) [![David Dependency Badge](https://david-dm.org/amobiz/regexgen.js.svg)](https://david-dm.org/amobiz/regexgen.js)
+
+[![NPM](https://nodei.co/npm/regexgen.js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/regexgen.js.png?downloads=true&downloadRank=true&stars=true) [![NPM](https://nodei.co/npm-dl/regexgen.js.png?months=6&height=3)](https://nodei.co/npm/regexgen.js/)
+
+
 RegexGen.js is basically designed for people who know how the regular expression engine works, but not working with it regularly, i.e., they know how to make the regex works but may not remember every meta-characters that constructs the regex.
 
 RegexGen.js helps people don't have to remember: meta-characters, shortcuts, what characters to escape and tricks about corner cases (http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex/5484178#5484178).
@@ -72,15 +77,15 @@ modifier ::= regexGen.ignoreCase() | regexGen.searchAll() | regexGen.searchMulti
 Please check out [regexgen.js](index.js) and [wiki](wiki) for API documentations, and check out [test.js](test.js) for more examples.
 
 ## Installation
-
-    npm install regexgen.js
-
+``` bash
+npm install regexgen.js
+```
 ## Usage
 
 Since the generator is exported as the `regexGen()` function, everything must be referenced from it.
 To simplify codes, assign it to a short variable is preferable.
 
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
@@ -96,7 +101,7 @@ var matches = regex.exec( url );
 Note: Though not recommended, if you still feel inconvenient, and don't mind the global object being polluted,
 use the `regexGen.mixin()` function to export all member functions of the `regexGen()` function object to the global object.
 
-```
+``` javascript
 var regexGen = require('regexgen.js');
 regexGen.mixin( global );
 
@@ -124,7 +129,7 @@ Checkout [wiki](wiki) for details.
 
 This example is taken from the article: [Mastering Lookahead and Lookbehind](http://www.rexegg.com/regex-lookarounds.html).
 
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     // Anchor: the beginning of the string
@@ -132,17 +137,17 @@ var regex = _(
     // Match: six to ten word characters
     _.word().multiple(6,10).
         // Look ahead: anything, then a lower-case letter
-        _.contains( _.anything().reluctant(), _.anyCharOf(['a','z']) ).
+        .contains( _.anything().reluctant(), _.anyCharOf(['a','z']) ).
         // Look ahead: anything, then an upper-case letter
-        _.contains( _.anything().reluctant(), _.anyCharOf(['A','Z']) ).
+        .contains( _.anything().reluctant(), _.anyCharOf(['A','Z']) ).
         // Look ahead: anything, then one digit
-        _.contains( _.anything().reluctant(), _.digital() ),
+        .contains( _.anything().reluctant(), _.digital() ),
     // Anchor: the end of the string
     _.endOfLine()
 );
 ```
 Generates:
-```
+``` javascript
 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)\w{6,10}$/
 ```
 
@@ -150,7 +155,7 @@ Generates:
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA187&lpg=PA187&dq=mastering+regular+expression+Matching+an+IP+Address&source=bl&ots=daK_ZPacNh&sig=l9eFfP2WvXWkTw_jYPQHSrxEO4Q&hl=zh-TW&sa=X&ei=z3KxU5blK43KkwXdiIGQDQ&ved=0CDcQ6AEwAg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20IP%20Address&f=false)
 
-```
+``` javascript
 var _ = require('regexgen.js');
 var d1 = _.group( _.anyCharOf( '0', '1' ).maybe(), _.digital(), _.digital().maybe() );
 var d2 = _.group( '2', _.anyCharOf( ['0', '4'] ), _.digital() );
@@ -163,7 +168,7 @@ var regex = _(
 );
 ```
 Generates:
-```
+``` javascript
 /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/
 ```
 
@@ -171,7 +176,7 @@ Generates:
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false)
 
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     '(',
@@ -186,14 +191,14 @@ var regex = _(
 );
 ```
 Generates:
-```
+``` javascript
 /\([^()]*(?:\([^()]*\)[^()]*)*\)/
 ```
 
 #### Matching Balanced Sets of Parentheses within Any Given Levels of Depth
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false)
-```
+``` javascript
 var _ = require('regexgen.js');
 function nestingParentheses( level ) {
     if ( level < 0 ) {
@@ -213,23 +218,23 @@ function nestingParentheses( level ) {
 }
 ```
 Given 1 level of nesting:
-```
+``` javascript
 var regex = _(
     '(', nestingParentheses( 1 ), ')'
 );
 ```
 Generates:
-```
+``` javascript
 /\((?:[^()]|\([^()]*\))*\)/
 ```
 Given 3 levels of nesting:
-```
+``` javascript
 var regex = _(
     '(', nestingParentheses( 3 ), ')'
 );
 ```
 Generates:
-```
+``` javascript
 /\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\)/
 ```
 
@@ -237,7 +242,7 @@ Generates:
 #### Matching an HTML Tag
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA200&lpg=PA200&dq=mastering+regular+expression+Matching+an+HTML+Tag&source=bl&ots=PJkiMpkrNX&sig=BiKB6kD_1ZudZw9g-VY-X-E-ylg&hl=zh-TW&sa=X&ei=y3OxU_uEIoPPkwXL3IHQCg&ved=0CFcQ6AEwBg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Tag&f=false)
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     '<',
@@ -250,14 +255,14 @@ var regex = _(
 );
 ```
 Generates:
-```
+``` javascript
 /<(?:"[^"]*"|'[^']*'|[^"'>])*>/
 ```
 
 #### Matching an HTML Link
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA201&dq=mastering+regular+expression+Matching+an+HTML+Link&hl=zh-TW&sa=X&ei=QnSxU4W-CMLkkAWLjIDgCg&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Link&f=false)
-```
+``` javascript
 var _ = require('regexgen.js');
 var regexLink = _(
     '<a',
@@ -287,7 +292,7 @@ var regexUrl = _(
 );
 ```
 Generates:
-```
+``` javascript
 /<a\b([^>]+)>(.*?)<\/a>/gi
 /\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^'">\s]+))/i
 ```
@@ -307,7 +312,7 @@ while ( (capture = regexLink.exec( html )) ) {
 #### Examining an HTTP URL
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Examining+an+HTTP+URL&hl=zh-TW&sa=X&ei=b3SxU9nUNojOkwXpjIDYCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Examining%20an%20HTTP%20URL&f=false)
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
@@ -319,11 +324,11 @@ var regex = _(
 );
 ```
 Generates:
-```
+``` javascript
 /^https?:\/\/([^/:]+)(?::(\d+))?(\/.*)?$/
 ```
 Here's a snippet to report about a URL (in browser):
-```
+``` javascript
 var capture = location.href.match( regex );
 var host = capture[1];
 var port = capture[2] || 80;
@@ -334,7 +339,7 @@ console.log( 'host:' + host + ', port:' + port + ', path:' + path );
 #### Validating a Hostname
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Validating+a+Hostname&hl=zh-TW&sa=X&ei=hXSxU5nlKceIkQXc7YHgCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Validating%20a%20Hostname&f=false)
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
@@ -360,14 +365,14 @@ var regex = _(
 );
 ```
 Generates:
-```
+``` javascript
 /^(?:[a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9]\.)*(?:com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])$/
 ```
 
 #### Parsing CSV Files
 
 This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA271&dq=Unrolling+the+CSV+regex&hl=zh-TW&sa=X&ei=x_q0U-qhD43jkAWYqoCgBA&ved=0CBwQ6AEwAA#v=onepage&q=Unrolling%20the%20CSV%20regex&f=false)
-```
+``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.either( _.startOfLine(), ',' ),
@@ -394,29 +399,37 @@ var regex = _(
 );
 ```
 Generates:
-```
+``` javascript
 /(?:^|,)(?:"([^"]*(?:""[^"]*)*)"|([^",]*))/
+```
+
+## Test
+``` bash
+$ npm test
 ```
 
 ## Change logs
 
-### 2015-09-12: 
-* Remove UMD headers that support RequireJS and browser globals.
-* The json object returned from `extract()` method without the "0" property.
-* Add `replace()` method to RegExp object.
+### 2015-12-24: 0.2.1
 
-### 2014-09-20:
-* Fix CommonJS factory invoking bug.
+* NPM: Update npm settings.
 
-### 2014-08-17:
-* Rename RegExp.jsonExec() to extract(). 
+### 2015-09-12: 0.2.0
 
-### 2014-08-15:
-* Character Classes now support nesting.
-* Fix a bug in multiple(). In the case of multiple(5) that returns /{,}/, and should be /{5,}/.
+* Breaking Change: Remove UMD headers that support RequireJS and browser globals.
+* Breaking Change: The json object returned from `extract()` method without the "0" property.
+* Breaking Change: Add `replace()` method to RegExp object.
 
-### 2014-08-10: 
-* Added RegExp.jsonExec() method, that returns a JSON object using capture names as properties.
+### 2014-09-20: 0.1.3
+
+* Bug Fix: Fix CommonJS factory invoking bug.
+* Bug Fix: Fix a bug in multiple(). In the case of multiple(5) that returns /{,}/, and should be /{5,}/.
+* Feature: Character Classes now support nesting.
+* Feature: Added RegExp.extract() method, that returns a JSON object using capture names as properties.
+
+### 2014-07-03: 0.1.0
+
+* First release.
 
 ## Author
 
