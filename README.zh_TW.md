@@ -15,21 +15,21 @@ RegexGen.js 基本上是為那些已經了解正則表達式引擎運作原理�
 2. 不必記憶正則表達式的『元字元 (meta-characters)』、『簡寫符號 (shortcuts)』，哪些字元在哪些情況下必須『跳脫 (escape)』，哪些情況下不需要？以及一些特殊的『極端情況 (corner cases)』，如 [What literal characters should be escaped in a regex?](http://stackoverflow.com/questions/5484084/what-literal-characters-should-be-escaped-in-a-regex/5484178#5484178)。
 3. 重複使用正則表達式 (參考後面的『匹配 IP 位址』範例)。
 
-## The Problems
+## 解決的問題
 
-RegexGen.js tries to ease two problems.
+RegexGen.js 努力減輕以下兩個問題：
 
-1. While creating a regular expression, it's hard to remember the correct syntax and what characters to escape.
-2. After done creating a regular expression, it's hard to read and remember what the regex do.
+1. 在撰寫正則表達式的時候，難以記憶正確的語法，以及需要『跳脫』的字元等。
+2. 在正則表達式撰寫完成後，難以閱讀甚至無法理解其行為、運作原理。
 
-## The Goals
+## 目標
 
-RegexGen.js is designed to achieve the following goals.
+RegexGen.js 的設計，謹守著下列目標：
 
-1. The written codes should be easy to read and easy to understand.
-2. The generated code should be as compact as possible, e.g., no redundant brackets and parentheses.
-3. No more character escaping reguired (except '\\', or if you use regex overwrite.)
-4. If the generated code is not good enougth, bad parts can be easily replaced directly in the written codes.
+1. 寫出來的程式碼，應該易讀易懂。
+2. 產出來的程式碼，應該要像人工寫的一樣緊湊，不要為了產生器本身容易撰寫，而產出機械式程式碼。尤其是不要產出不必要的 {} 或 ()。
+3. 不再需要手動對元字元進行轉義。(除了 \ 元字元本身。或者使用了表達式置換 (regex overwrite) 功能。)
+4. 如果產生器力有未逮，無法產生理想的子表達式，必須要能夠在語法中直接指定替代的子表達式。也就是表達式置換功能。
 
 ## Getting Started
 
