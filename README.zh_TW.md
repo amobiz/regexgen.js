@@ -31,19 +31,21 @@ RegexGen.js 的設計，謹守著下列目標：
 3. 不再需要手動對元字元進行轉義。(除了 \ 元字元本身。或者使用了表達式置換 (regex overwrite) 功能。)
 4. 如果產生器力有未逮，無法產生理想的子表達式，必須要能夠在語法中直接指定替代的子表達式。也就是表達式置換功能。
 
-## Getting Started
+## 開始使用
 
-The generator is exported as a `regexGen()` function.
+產生器是以 `regexGen()` 函數的形式提供。
 
-To generate a regular expression, pass sub-expressions as parameters to the call of `regexGen()` function.
+要輸出正則表達式時，需要呼叫 `regexGen()` 函數，並將子表達式以參數的形式傳入。
 
-Sub-expressions which are separated by comma are concatenated together to form the whole regular expression.
+個別的子表達式之間，像一般參數一樣，以 `,` 逗號隔開。最終輸出的正則表達式，將是這些子表達式組合而成的結果。
 
-Sub-expressions can either be a `string`, a `number`, a `RegExp` object, or any combinations of the call to methods (i.e., the `sub-generators`) of the `regexGen()` function object, as the following informal [BNF](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form) syntax.
+子表達式可以是字串、數字、一個標準的 RegExp 物件，或透過 `regexGen()` 函數提供的子方法 (也就是子產生器)，隨意加以組合 (參考後面的『[非正規 BNF 語法](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form)』)。
 
-Strings passed to the the call of `regexGen()`, `text()`, `maybe()`, `anyCharOf()` and `anyCharBut()` methods, are always escaped as necessary, so you don't have to worry about which characters to escape.
+將字串傳入 `regexGen()` 函數，或 `text()`, `maybe()`, `anyCharOf()` 及 `anyCharBut()` 等子方法時，將自動視需要進行『跳脫』處理，因此你不需要記憶哪些字元需要在何時進行跳脫處裡。
 
-The result of calling the `regexGen()` function is a `RegExp` object.
+最後，`regexGen()` 函數回傳一個 `RegExp` 物件，你接著可以像平常一樣使用該正則表達式物件。
+
+使用時，大致上像這樣：
 
 ```
 var regexGen = require('regexgen.js');
