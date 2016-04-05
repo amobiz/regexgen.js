@@ -52,7 +52,7 @@ var regexGen = require('regexgen.js');
 var regex = regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
 ```
 
-The basic usage can be expressed as the following informal [BNF](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form) syntax.
+基本的使用方始，可以參考下面的『[非正規 BNF 語法](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form)』：
 
 ```
 regex ::= regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
@@ -78,16 +78,17 @@ term-lookahead() ::= term.contains() | term.notContains() | term.followedBy() | 
 modifier ::= regexGen.ignoreCase() | regexGen.searchAll() | regexGen.searchMultiLine()
 ```
 
-Please check out [regexgen.js](index.js) and [wiki](wiki) for API documentations, and check out [test.js](test.js) for more examples.
+詳細的語法請參考以下的說明以及 [wiki](wiki) 的說明。更多的範例可以直接參考測試程式：[test.js](test.js)。
 
-## Installation
+## 安裝
+
 ``` bash
 npm install regexgen.js
 ```
-## Usage
 
-Since the generator is exported as the `regexGen()` function, everything must be referenced from it.
-To simplify codes, assign it to a short variable is preferable.
+## 用法
+
+由於產生器是以 `regexGen()` 函數的形式提供，所有的子方法都是透過它來使用。建議可以先將它指定給比較簡短的變數，譬如 `_` 符號：
 
 ``` javascript
 var _ = require('regexgen.js');
@@ -102,8 +103,7 @@ var regex = _(
 var matches = regex.exec( url );
 ```
 
-Note: Though not recommended, if you still feel inconvenient, and don't mind the global object being polluted,
-use the `regexGen.mixin()` function to export all member functions of the `regexGen()` function object to the global object.
+注意：雖然不推薦，但是如果你認為以上的作法仍然不夠方便，同時也不介意污染全域物件 (譬如撰寫小型工具程式時)，你可以使用 `regexGen.mixin()` 函數，將 `regexGen()` 函數的所有的子方法，全部都匯出到全域物件中，這樣就可以省略上面範例中 '_.' 的部份：
 
 ``` javascript
 var regexGen = require('regexgen.js');
