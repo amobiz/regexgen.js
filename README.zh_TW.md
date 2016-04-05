@@ -39,7 +39,7 @@ RegexGen.js 的設計，謹守著下列目標：
 
 個別的子表達式之間，像一般參數一樣，以 `,` 逗號隔開。最終輸出的正則表達式，將是這些子表達式組合而成的結果。
 
-子表達式可以是字串、數字、一個標準的 RegExp 物件，或透過 `regexGen()` 函數提供的子方法 (也就是子產生器)，隨意加以組合 (參考後面的『[非正規 BNF 語法](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form)』)。
+子表達式可以是字串、數字、一個標準的 RegExp 物件，或透過 `regexGen()` 函數提供的子方法 (也就是子產生器)，隨意加以組合 (參考後面的『[非正規 BNF 語法](#non-formal-bnf)』。
 
 將字串傳入 `regexGen()` 函數，或 `text()`, `maybe()`, `anyCharOf()` 及 `anyCharBut()` 等子方法時，將自動視需要進行『跳脫』處理，因此你不需要記憶哪些字元需要在何時進行跳脫處裡。
 
@@ -52,7 +52,11 @@ var regexGen = require('regexgen.js');
 var regex = regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
 ```
 
-基本的使用方始，可以參考下面的『[非正規 BNF 語法](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form)』：
+## <a id="non-formal-bnf"></a>非正規 BNF 語法
+
+基本的使用方始，可以參考這裡列出的『非正規 BNF 語法』：
+
+(注意，因為這裡列出的並不是嚴謹的[BNF 語法](http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form)，故這裡稱為『非正規 BNF 語法』。)
 
 ```
 regex ::= regexGen( sub-expression [, sub-expression ...] [, modifier ...] )
@@ -158,15 +162,19 @@ var regex = _(
 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)\w{6,10}$/
 ```
 
-#### Matching an IP Address
+#### 匹配 IP 位址
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA187&lpg=PA187&dq=mastering+regular+expression+Matching+an+IP+Address&source=bl&ots=daK_ZPacNh&sig=l9eFfP2WvXWkTw_jYPQHSrxEO4Q&hl=zh-TW&sa=X&ei=z3KxU5blK43KkwXdiIGQDQ&ved=0CDcQ6AEwAg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20IP%20Address&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA187&lpg=PA187&dq=mastering+regular+expression+Matching+an+IP+Address&source=bl&ots=daK_ZPacNh&sig=l9eFfP2WvXWkTw_jYPQHSrxEO4Q&hl=zh-TW&sa=X&ei=z3KxU5blK43KkwXdiIGQDQ&ved=0CDcQ6AEwAg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20IP%20Address&f=false) 這本書。
 
 ``` javascript
 var _ = require('regexgen.js');
+// 0 ~ 199 的情形
 var d1 = _.group( _.anyCharOf( '0', '1' ).maybe(), _.digital(), _.digital().maybe() );
+// 200 ~ 249 的情形
 var d2 = _.group( '2', _.anyCharOf( ['0', '4'] ), _.digital() );
+// 250 ~ 255 的情形
 var d3 = _.group( '25', _.anyCharOf( ['0', '5'] ) );
+// 綜和上面三點，批配 0 ~ 255 的情形
 var d255 = _.capture( _.either( d1, d2, d3 ) );
 var regex = _(
     _.startOfLine(),
@@ -174,14 +182,14 @@ var regex = _(
     _.endOfLine()
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/
 ```
 
-#### Matching Balanced Sets of Parentheses
+#### 匹配對稱的括號
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false) 這本書。
 
 ``` javascript
 var _ = require('regexgen.js');
@@ -197,14 +205,14 @@ var regex = _(
     ')'
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /\([^()]*(?:\([^()]*\)[^()]*)*\)/
 ```
 
-#### Matching Balanced Sets of Parentheses within Any Given Levels of Depth
+#### 匹配任意巢狀深度的對稱括號
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=sshKXlr32-AC&pg=PA193&lpg=PA193&dq=mastering+regular+expression+Matching+Balanced+Sets+of+Parentheses&source=bl&ots=daK_ZPaeHl&sig=gBcTaTIWQh-9_HSuINjQYHpFn7E&hl=zh-TW&sa=X&ei=YHOxU5_WCIzvkgX-nYHQAw&ved=0CBsQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20Balanced%20Sets%20of%20Parentheses&f=false) 這本書。
 ``` javascript
 var _ = require('regexgen.js');
 function nestingParentheses( level ) {
@@ -224,31 +232,31 @@ function nestingParentheses( level ) {
         ).any();
 }
 ```
-Given 1 level of nesting:
+一層巢狀深度：
 ``` javascript
 var regex = _(
     '(', nestingParentheses( 1 ), ')'
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /\((?:[^()]|\([^()]*\))*\)/
 ```
-Given 3 levels of nesting:
+三層巢狀深度：
 ``` javascript
 var regex = _(
     '(', nestingParentheses( 3 ), ')'
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\)/
 ```
 
 
-#### Matching an HTML Tag
+#### 匹配 HTML 標籤
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA200&lpg=PA200&dq=mastering+regular+expression+Matching+an+HTML+Tag&source=bl&ots=PJkiMpkrNX&sig=BiKB6kD_1ZudZw9g-VY-X-E-ylg&hl=zh-TW&sa=X&ei=y3OxU_uEIoPPkwXL3IHQCg&ved=0CFcQ6AEwBg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Tag&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA200&lpg=PA200&dq=mastering+regular+expression+Matching+an+HTML+Tag&source=bl&ots=PJkiMpkrNX&sig=BiKB6kD_1ZudZw9g-VY-X-E-ylg&hl=zh-TW&sa=X&ei=y3OxU_uEIoPPkwXL3IHQCg&ved=0CFcQ6AEwBg#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Tag&f=false) 這本書。
 ``` javascript
 var _ = require('regexgen.js');
 var regex = _(
@@ -261,14 +269,14 @@ var regex = _(
     '>'
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /<(?:"[^"]*"|'[^']*'|[^"'>])*>/
 ```
 
-#### Matching an HTML Link
+#### 匹配 HTML anchor 連結
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA201&dq=mastering+regular+expression+Matching+an+HTML+Link&hl=zh-TW&sa=X&ei=QnSxU4W-CMLkkAWLjIDgCg&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Link&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA201&dq=mastering+regular+expression+Matching+an+HTML+Link&hl=zh-TW&sa=X&ei=QnSxU4W-CMLkkAWLjIDgCg&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Matching%20an%20HTML%20Link&f=false) 這本書。
 ``` javascript
 var _ = require('regexgen.js');
 var regexLink = _(
@@ -298,12 +306,12 @@ var regexUrl = _(
     _.ignoreCase()
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /<a\b([^>]+)>(.*?)<\/a>/gi
 /\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^'">\s]+))/i
 ```
-Here's how to iterate all links (in browser):
+在瀏覽器中要遍歷所有的連結，可以這麼做：
 ```
 var capture, guts, link, url, html = document.documentElement.outerHTML;
 while ( (capture = regexLink.exec( html )) ) {
@@ -316,9 +324,9 @@ while ( (capture = regexLink.exec( html )) ) {
 }
 ```
 
-#### Examining an HTTP URL
+#### 檢驗 HTTP URL
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Examining+an+HTTP+URL&hl=zh-TW&sa=X&ei=b3SxU9nUNojOkwXpjIDYCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Examining%20an%20HTTP%20URL&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Examining+an+HTTP+URL&hl=zh-TW&sa=X&ei=b3SxU9nUNojOkwXpjIDYCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Examining%20an%20HTTP%20URL&f=false) 這本書。
 ``` javascript
 var _ = require('regexgen.js');
 var regex = _(
@@ -330,11 +338,11 @@ var regex = _(
     _.endOfLine()
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /^https?:\/\/([^/:]+)(?::(\d+))?(\/.*)?$/
 ```
-Here's a snippet to report about a URL (in browser):
+在瀏覽器中要印出匹配的 URL，可以這麼做：
 ``` javascript
 var capture = location.href.match( regex );
 var host = capture[1];
@@ -343,14 +351,14 @@ var path = capture[3] || '/';
 console.log( 'host:' + host + ', port:' + port + ', path:' + path );
 ```
 
-#### Validating a Hostname
+#### 驗證 host 名稱
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Validating+a+Hostname&hl=zh-TW&sa=X&ei=hXSxU5nlKceIkQXc7YHgCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Validating%20a%20Hostname&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA203&dq=mastering+regular+expression+Validating+a+Hostname&hl=zh-TW&sa=X&ei=hXSxU5nlKceIkQXc7YHgCA&ved=0CBwQ6AEwAA#v=onepage&q=mastering%20regular%20expression%20Validating%20a%20Hostname&f=false) 這本書。
 ``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.startOfLine(),
-    // One or more dot-separated parts . . .
+    // 以 . 號分隔的部份 . . .
     _.either(
         _.group(
             _.anyCharOf( ['a', 'z'], ['0', '9'] ),
@@ -363,7 +371,7 @@ var regex = _(
             '.'
         )
     ).any(),
-    // Followed by the final suffix part . . .
+    // 緊接著允許的域名分類 . . .
     _.either(
         'com', 'edu', 'gov', 'int', 'mil', 'net', 'org', 'biz', 'info', 'name', 'museum', 'coop', 'aero',
         _.group( _.anyCharOf( ['a', 'z'] ), _.anyCharOf( ['a', 'z'] ) )
@@ -371,22 +379,22 @@ var regex = _(
     _.endOfLine()
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /^(?:[a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9]\.)*(?:com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])$/
 ```
 
-#### Parsing CSV Files
+#### 解析 CSV 檔案
 
-This example is taken from the book: [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA271&dq=Unrolling+the+CSV+regex&hl=zh-TW&sa=X&ei=x_q0U-qhD43jkAWYqoCgBA&ved=0CBwQ6AEwAA#v=onepage&q=Unrolling%20the%20CSV%20regex&f=false)
+這個範例取材自 [Mastering Regular Expressions](http://books.google.com.tw/books?id=GX3w_18-JegC&pg=PA271&dq=Unrolling+the+CSV+regex&hl=zh-TW&sa=X&ei=x_q0U-qhD43jkAWYqoCgBA&ved=0CBwQ6AEwAA#v=onepage&q=Unrolling%20the%20CSV%20regex&f=false) 這本書。
 ``` javascript
 var _ = require('regexgen.js');
 var regex = _(
     _.either( _.startOfLine(), ',' ),
     _.either(
-        // Either a double-quoted field (with "" for each ")
+        // 要嘛是雙引號所包圍的內容
         _.group(
-            // double-quoted field's opening quote
+            // 起始雙引號
             '"',
             _.capture(
                 _.anyCharBut( '"' ).any(),
@@ -395,27 +403,28 @@ var regex = _(
                     _.anyCharBut( '"' ).any()
                 ).any()
             ),
-            // double-quoted field's closing quote
+            // 結尾雙引號
             '"'
         ),
-        // Or some non-quote/non-comma text....
+        // 不然就是除了雙引號、逗號之外的文字
         _.capture(
             _.anyCharBut( '",' ).any()
         )
     )
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /(?:^|,)(?:"([^"]*(?:""[^"]*)*)"|([^",]*))/
 ```
 
-## Test
+## 測試
+
 ``` bash
 $ npm test
 ```
 
-## Change logs
+## 修改記錄
 
 ### 2015-12-24: 0.2.1
 
@@ -438,6 +447,6 @@ $ npm test
 
 * First release.
 
-## Author
+## 作者
 
   * [Amobiz](https://github.com/amobiz)
