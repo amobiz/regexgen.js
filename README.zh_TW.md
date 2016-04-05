@@ -78,7 +78,7 @@ term-lookahead() ::= term.contains() | term.notContains() | term.followedBy() | 
 modifier ::= regexGen.ignoreCase() | regexGen.searchAll() | regexGen.searchMultiLine()
 ```
 
-詳細的語法請參考以下的說明以及 [wiki](wiki) 的說明。更多的範例可以直接參考測試程式：[test.js](test.js)。
+詳細的語法請參考 [wiki](wiki) 以及以下的說明及範例。更多的範例可以直接參考測試程式：[test.js](test.js)。
 
 ## 安裝
 
@@ -120,37 +120,40 @@ var regex = regexGen(
 var matches = regex.exec( url );
 ```
 
-## About The Returned RegExp Object
+## 關於回傳的 RegExp 物件
 
-The `RegExp` object returned from the call of `regexGen()` function, can be used directly as usual.
-In addition, there are four properties injected to the `RegExp` object:
-`warnings` array, `captures` array, `extract()` method and `replace()` method.
-Checkout [wiki](wiki) for details.
+由 `regexGen()` 函數回傳的是一個標準的 `RegExp` 物件，你可以像平常一樣使用它。
 
-## Examples
+不過為了提供除錯功能，以及在處理字串時，方便提取內容，該 `RegExp` 物件另外附加了四個屬性：
+`warnings` 陣列, `captures` 陣列, `extract()` 方法以及 `replace()` 方法。
+更多細節請參考 [wiki](wiki) 的說明。
 
-#### Simple Password Validation
+## 範例
 
-This example is taken from the article: [Mastering Lookahead and Lookbehind](http://www.rexegg.com/regex-lookarounds.html).
+#### 簡單的密碼驗證
+
+檢查一個字串，該字串必須至少包含六個字元，最多十個字元，字串必須混和數字、小寫、大寫英文字母，缺一不可。
+
+這個範例取材自 [Mastering Lookahead and Lookbehind](http://www.rexegg.com/regex-lookarounds.html) 這篇文章。
 
 ``` javascript
 var _ = require('regexgen.js');
 var regex = _(
-    // Anchor: the beginning of the string
+    // 錨點: 匹配字串的起始位置
     _.startOfLine(),
-    // Match: six to ten word characters
+    // 匹配六到十個英數字字元
     _.word().multiple(6,10).
-        // Look ahead: anything, then a lower-case letter
+        // 順序環視：任意字元，直到發現一個小寫英文字母 (忽略優先)
         .contains( _.anything().reluctant(), _.anyCharOf(['a','z']) ).
-        // Look ahead: anything, then an upper-case letter
+		// 順序環視：任意字元，直到發現一個大寫英文字母 (忽略優先)
         .contains( _.anything().reluctant(), _.anyCharOf(['A','Z']) ).
-        // Look ahead: anything, then one digit
+        // 順序環視：任意字元，直到發現一個數字字元 (忽略優先)
         .contains( _.anything().reluctant(), _.digital() ),
-    // Anchor: the end of the string
+    // 錨點: 匹配字串的結束位置
     _.endOfLine()
 );
 ```
-Generates:
+輸出為：
 ``` javascript
 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)\w{6,10}$/
 ```
