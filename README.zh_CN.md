@@ -3,6 +3,7 @@
 RegexGen.js 是开发给 JavaScript 使用的正则表达式产生器，可以使用浅显易懂的语法来表现复杂的正则表达式。 RegexGen.js 的开发是受到 [JSVerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions) 的启发。
 
 [![MIT](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/amobiz/regexgen.js/blob/master/LICENSE) [![npm version](https://badge.fury.io/js/regexgen.js.svg)](http://badge.fury.io/js/regexgen.js) [![David Dependency Badge](https://david-dm.org/amobiz/regexgen.js.svg)](https://david-dm.org/amobiz/regexgen.js)
+[![Build Status](https://travis-ci.org/amobiz/regexgen.js.svg?branch=master)](https://travis-ci.org/amobiz/regexgen.js)
 
 [![NPM](https://nodei.co/npm/regexgen.js.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/regexgen.js.png?downloads=true&downloadRank=true&stars=true) [![NPM](https://nodei.co/npm-dl/regexgen.js.png?months=6&height=3)](https://nodei.co/npm/regexgen.js/)
 
