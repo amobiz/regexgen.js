@@ -5,6 +5,7 @@
 	"globals": {
 	},
 	"rules": {
-		"max-nested-callbacks": [1, 10]
+		"max-nested-callbacks": ["warn", 10],
+        "no-control-regex": "off"
 	}
 }
